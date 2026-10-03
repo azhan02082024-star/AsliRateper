@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AsliRateper Store</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f4c81">
+</head>
+<body class="user-theme">
+<div class="app user-theme" id="appRoot">
+<div class="top">
+<div><b>AsliRateper Store</b><br><small id="modeText">User Active ✓ - Blue</small></div>
+<div onclick="openPage('cart')" style="cursor:pointer">🛒 <span id="cartCount">0</span></div>
+</div>
+<div class="role">
+<div id="userBtn" class="on" onclick="setRole('user')">User<br><small>Blue #0f4c81</small></div>
+<div id="sellerBtn" onclick="setRole('seller')">Seller<br><small>Orange #ff6f00</small></div>
+</div>
+<div id="homeView">
+<div class="search"><input id="searchInput" placeholder="Search Timergara..." onkeyup="doSearch()"><button onclick="doSearch()">Search</button></div>
+<div style="padding:10px"><div class="banner"><b>AsliRateper Store</b><br><small>User Blue / Seller Orange - Daraz Jaisa</small></div></div>
+<div class="grid" id="productGrid"></div>
+<div class="menu">
+<div class="menu-item" onclick="openPage('orders')"><span>📦 My Orders</span><span>›</span></div>
+<div class="menu-item" onclick="openPage('profile')"><span>👤 Profile</span><span>›</span></div>
+<div class="menu-item" onclick="openPage('seller')"><span>🏪 Seller Dashboard</span><span>›</span></div>
+</div>
+</div>
+<div id="otherView" style="display:none"></div>
+<div class="bottom">
+<span onclick="showHome()">🏠<br><small>Home</small></span>
+<span onclick="openPage('cart')">🛒<br><small>Cart</small></span>
+<span onclick="openPage('seller')">🏪<br><small>Seller</small></span>
+<span onclick="openPage('profile')">👤<br><small>Me</small></span>
+</div>
+</div>
+<script src="script.js"></script>
+</body>
+  </html>

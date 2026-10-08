@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AsliRate Admin</title>
+<style>body{font-family:system-ui;background:#f3f5f8;margin:0;padding:10px}.box{background:#fff;border-radius:16px;padding:14px;margin:10px 0}.btn{padding:10px 14px;border:none;border-radius:10px;font-weight:800;cursor:pointer}.btn-blue{background:#0b3d6b;color:#fff}.btn-green{background:#0ab14a;color:#fff}.btn-red{background:#ef4444;color:#fff} input{padding:10px;border:1.5px solid #ddd;border-radius:10px;width:100%;margin:4px 0}</style></head><body>
+<h2>🔐 AsliRate Admin V5</h2><div id="loginBox" class="box"><h3>Admin Login</h3><input id="aUser" placeholder="admin"><input id="aPass" type="password" placeholder="admin123"><button onclick="login()" class="btn btn-blue">Login</button><div style="font-size:11px">admin / admin123</div></div>
+<div id="panel" style="display:none">
+<div class="box"><h3>📊 Dashboard</h3><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div style="background:#eef2ff;padding:10px;border-radius:10px"><div style="font-size:11px">Users</div><b id="tUsers">0</b></div><div style="background:#f0fdf4;padding:10px;border-radius:10px"><div style="font-size:11px">Orders</div><b id="tOrders">0</b></div><div style="background:#fff7ed;padding:10px;border-radius:10px"><div style="font-size:11px">Products</div><b id="tProds">0</b></div></div></div>
+<div class="box"><h3>👥 Users</h3><div id="uList"></div></div>
+<div class="box"><h3>📦 Orders - Tracking</h3><div id="oList"></div></div>
+<div class="box"><h3>💸 Withdraw - Approve/Reject</h3><div id="wList"></div></div>
+<div class="box"><h3>🏪 Products - Delete Fake</h3><div id="pList"></div></div>
+<div class="box"><h3>⭐ Reviews</h3><div id="rList"></div></div>
+</div>
+<script>
+let users=JSON.parse(localStorage.getItem('ar_users')||'[]');let orders=JSON.parse(localStorage.getItem('ar_orders')||'[]');let products=JSON.parse(localStorage.getItem('arprod')||'[]');let withdraws=JSON.parse(localStorage.getItem('ar_withdraws')||'[]');let reviews=JSON.parse(localStorage.getItem('ar_reviews')||'[]');
+function save(){localStorage.setItem('ar_users',JSON.stringify(users));localStorage.setItem('ar_orders',JSON.stringify(orders));localStorage.setItem('arprod',JSON.stringify(products));localStorage.setItem('ar_withdraws',JSON.stringify(withdraws));localStorage.setItem('ar_reviews',JSON.stringify(reviews));}
+function login(){if(aUser.value==='admin'&&aPass.value==='admin123'){loginBox.style.display='none';panel.style.display='block';render();}else alert('Wrong');}
+function render(){tUsers.innerText=users.length;tOrders.innerText=orders.length;tProds.innerText=products.length;
+uList.innerHTML=users.map((u,i)=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:12px"><span><b>${u.name}</b> ${u.phone} Coins:${u.coins||0}</span><button onclick="delUser(${i})" class="btn btn-red" style="padding:4px 8px;font-size:11px">Delete</button></div>`).join('');
+oList.innerHTML=orders.slice().reverse().map(o=>`<div style="border:1px solid #eee;padding:8px;border-radius:10px;margin:5px 0;font-size:11px"><b>${o.id}</b> ${o.customerName} ${o.customerPhone}<br>${o.items.map(i=>i.name+' x'+i.qty).join(', ')}<br>Rs ${o.total} | ${o.pay} ${o.payNum||''} | ${o.address}<br>Status: <select onchange="updOrd('${o.id}',this.value)"><option ${o.status==='Pending'?'selected':''}>Pending</option><option ${o.status==='Packed'?'selected':''}>Packed</option><option ${o.status==='Shipped'?'selected':''}>Shipped</option><option ${o.status==='Delivered'?'selected':''}>Delivered</option></select> <button onclick="delOrd('${o.id}')" class="btn btn-red" style="padding:4px 8px;font-size:10px">Delete</button></div>`).join('')||'No orders';
+wList.innerHTML=withdraws.slice().reverse().map((w,i)=>`<div style="border:1px solid #eee;padding:8px;border-radius:10px;margin:5px 0;font-size:11px"><b>Rs ${w.amount}</b> ${w.seller} ${w.method} ${w.account}<br>${w.status} | ${w.date}<br><button onclick="approveW(${withdraws.length-1-i})" class="btn btn-green" style="padding:4px 8px;font-size:10px">Approve</button> <button onclick="rejectW(${withdraws.length-1-i})" class="btn btn-red" style="padding:4px 8px;font-size:10px">Reject</button></div>`).join('')||'No withdraw';
+pList.innerHTML=products.map((p,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #eee;font-size:11px"><img src="${p.img}" style="width:40px;height:40px;border-radius:6px"><div style="flex:1"><b>${p.name}</b><br>Rs ${p.price} Seller ${p.seller}</div><button onclick="delProd(${i})" class="btn btn-red" style="padding:4px 8px">Delete</button></div>`).join('');
+rList.innerHTML=reviews.slice().reverse().map((r,i)=>`<div style="border-bottom:1px solid #eee;padding:6px 0;font-size:11px"><b>${r.userName}</b> Prod ${r.prodId} ${'★'.repeat(r.star)}<br>${r.text} <button onclick="delRev(${reviews.length-1-i})" style="color:red;border:none;background:none">Delete</button></div>`).join('')||'No reviews';
+}
+function delUser(i){if(!confirm('Delete?'))return;users.splice(i,1);save();render();}
+function delOrd(id){if(!confirm('Delete?'))return;orders=orders.filter(o=>o.id!==id);save();render();}
+function updOrd(id,s){let o=orders.find(x=>x.id===id);if(o){o.status=s;save();render();}}
+function approveW(i){withdraws[i].status='Approved';save();render();}
+function rejectW(i){withdraws[i].status='Rejected';save();render();}
+function delProd(i){if(!confirm('Delete?'))return;products.splice(i,1);save();render();}
+function delRev(i){reviews.splice(i,1);save();render();}
+</script></body></html>

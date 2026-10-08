@@ -1,113 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AsliRate - Complete Bazaar</title>
-<style>
-:root{--blue:#0b3d6b;--blue2:#1668b0;--orange:#ff6f00;--bg:#f3f5f8;--green:#0ab14a}
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif}
-body{background:var(--bg);padding-bottom:80px}
-.header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:12px 14px;position:sticky;top:0;z-index:90;display:flex;justify-content:space-between;align-items:center}
-.page{display:none}.page.active{display:block}
-.auth-wrap{min-height:95vh;display:flex;align-items:center;justify-content:center;padding:14px}
-.auth-box{background:#fff;width:100%;max-width:390px;border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-.tab{display:flex;background:#eef2f6;border-radius:30px;padding:4px;margin:10px 0}
-.tab button{flex:1;border:none;padding:9px;border-radius:20px;font-weight:700;background:none;cursor:pointer;font-size:13px}
-.tab .active{background:var(--blue);color:#fff}.tab.seller .active{background:var(--orange)}
-input,textarea,select{width:100%;padding:12px;margin:5px 0;border:1.5px solid #e5e8eb;border-radius:12px;font-size:13px;outline:none}
-.btn{width:100%;padding:13px;border:none;border-radius:12px;font-weight:800;cursor:pointer;margin-top:8px}
-.btn-blue{background:var(--blue);color:#fff}.btn-orange{background:var(--orange);color:#fff}.btn-green{background:var(--green);color:#fff}
-.banner{margin:10px;border-radius:16px;padding:16px;color:#fff;background:linear-gradient(135deg,#0f4c81,#3aa0ff)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
-.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer}
-.card img{width:100%;height:145px;object-fit:cover}.card .info{padding:8px}
-.cat-bar{display:flex;gap:7px;overflow-x:auto;padding:8px 10px}.cat{background:#fff;padding:7px 13px;border-radius:20px;font-size:12px;border:1px solid #eee;white-space:nowrap}.cat.active{background:var(--blue);color:#fff}
-.wallet{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:16px;padding:16px;margin:10px}
-.box{background:#fff;margin:10px;border-radius:16px;padding:14px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #eee;z-index:100}
-.bitem{flex:1;text-align:center;padding:7px 0;font-size:11px;color:#888;cursor:pointer}.bitem.active{color:var(--blue);font-weight:800}.bitem i{font-style:normal;font-size:21px;display:block}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end}
-.modal.show{display:flex}.modal .sheet{background:#fff;width:100%;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:14px;animation:up .2s}
-@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
-#detail{position:fixed;inset:0;background:#fff;z-index:190;overflow:auto;display:none}#detail.show{display:block}
-.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.stat div{background:#f8fafc;border-radius:12px;padding:10px;text-align:center;border:1px solid #eef2f6}
-</style>
-</head>
-<body>
-<div class="header"><div><b>AsliRate</b><div id="hUser" style="font-size:11px;opacity:.9">Timergara Bazaar</div></div><div onclick="openP('cart')" style="background:#fff;color:var(--blue);padding:5px 12px;border-radius:20px;font-weight:800">🛒 <span id="cartTop">0</span></div></div>
-
-<div id="authPage" class="page active"><div class="auth-wrap"><div class="auth-box">
-<h2 style="text-align:center;color:var(--blue)">AsliRate</h2><p style="text-align:center;font-size:11px;color:#666;margin:4px 0 10px">User + Seller + Payment + Withdraw - All in One</p>
-<div class="tab" id="roleTab"><button id="tUser" class="active" onclick="setRole('user')">👤 User</button><button id="tSeller" onclick="setRole('seller')">🏪 Seller</button></div>
-<div class="tab"><button id="tLogin" class="active" onclick="setMode('login')">Login</button><button id="tReg" onclick="setMode('register')">Register</button></div>
-<div id="fLogin"><input id="lPhone" placeholder="Mobile e.g. 03450000000"><input id="lPass" type="password" placeholder="Password"><button class="btn btn-blue" id="btnLogin" onclick="doLogin()">Login as User</button></div>
-<div id="fReg" style="display:none"><input id="rName" placeholder="Full Name"><input id="rPhone" placeholder="Mobile"><input id="rCity" placeholder="City e.g. Timergara"><input id="rPass" type="password" placeholder="Password min 4"><button class="btn btn-blue" id="btnReg" onclick="doReg()">Register as User</button></div>
-<div style="background:#f6f8fa;padding:8px;border-radius:10px;margin-top:10px;font-size:11px">Demo User: 03450000000 / 1234<br>Demo Seller: 03000000000 / 1234</div>
-</div></div></div>
-
-<div id="homePage" class="page"><div class="banner"><b>🔥 Asli Rate, Asli Cheez!</b><div style="font-size:11px;margin-top:3px">Timergara Dir Lower ka apna bazaar</div></div><div style="padding:10px"><input id="q" placeholder="🔍 Search Mobile, Kapre, Shoes..." oninput="render()"></div><div class="cat-bar" id="catBar"></div><div id="grid" class="grid"></div></div>
-
-<div id="cartPage" class="page"><div class="box"><h3>🛒 Cart - <span id="cartCount">0</span></h3><div id="cartList" style="margin-top:10px"></div></div><div class="box"><h3>📦 My Orders</h3><div id="myOrders" style="margin-top:10px"></div></div></div>
-
-<div id="sellerPage" class="page">
-<div class="wallet"><div style="display:flex;justify-content:space-between"><div><div style="font-size:11px;opacity:.8">Total Earning</div><h2 id="sEarn">Rs 0</h2></div><div style="text-align:right"><div style="font-size:11px;opacity:.8">Withdrawable</div><h3 id="sBal">Rs 0</h3></div></div><div style="display:flex;gap:6px;margin-top:10px"><button onclick="openWModal()" class="btn btn-orange" style="background:#fff;color:var(--orange);padding:8px">💸 Withdraw</button><button onclick="openP('home')" class="btn" style="background:rgba(255,255,255,.2);color:#fff;padding:8px">🛍️ View Shop</button></div></div>
-<div class="stat"><div><b id="sTotalProd">0</b><div style="font-size:11px">Products</div></div><div><b id="sTotalOrd">0</b><div style="font-size:11px">Orders</div></div></div>
-<div class="box"><h4>➕ Add New Product</h4><input id="pName" placeholder="Product Name e.g. iPhone 15"><div style="display:flex;gap:6px"><input id="pPrice" type="number" placeholder="Price Rs"><input id="pStock" type="number" placeholder="Stock e.g. 10"></div><div style="display:flex;gap:6px"><input id="pCat" placeholder="Category Mobile/Kapre"><input id="pImg" placeholder="Image URL (optional)"></div><textarea id="pDesc" placeholder="Description" rows="2"></textarea><button onclick="addProd()" class="btn btn-orange">Add Product</button></div>
-<div class="box"><h4>📦 My Products</h4><div id="sProdList"></div></div>
-<div class="box"><h4>🛒 Orders Received (Mere Products Pe)</h4><div id="sOrderList"></div></div>
-<div class="box"><h4>💸 Withdraw History</h4><div id="sWithdrawList"></div></div>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AsliRate Admin</title>
+<style>body{font-family:system-ui;background:#f3f5f8;margin:0;padding:10px}.box{background:#fff;border-radius:16px;padding:14px;margin:10px 0}.btn{padding:10px 14px;border:none;border-radius:10px;font-weight:800;cursor:pointer}.btn-blue{background:#0b3d6b;color:#fff}.btn-green{background:#0ab14a;color:#fff}.btn-red{background:#ef4444;color:#fff} input{padding:10px;border:1.5px solid #ddd;border-radius:10px;width:100%;margin:4px 0}</style></head><body>
+<h2>🔐 AsliRate Admin V5</h2><div id="loginBox" class="box"><h3>Admin Login</h3><input id="aUser" placeholder="admin"><input id="aPass" type="password" placeholder="admin123"><button onclick="login()" class="btn btn-blue">Login</button><div style="font-size:11px">admin / admin123</div></div>
+<div id="panel" style="display:none">
+<div class="box"><h3>📊 Dashboard</h3><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div style="background:#eef2ff;padding:10px;border-radius:10px"><div style="font-size:11px">Users</div><b id="tUsers">0</b></div><div style="background:#f0fdf4;padding:10px;border-radius:10px"><div style="font-size:11px">Orders</div><b id="tOrders">0</b></div><div style="background:#fff7ed;padding:10px;border-radius:10px"><div style="font-size:11px">Products</div><b id="tProds">0</b></div></div></div>
+<div class="box"><h3>👥 Users</h3><div id="uList"></div></div>
+<div class="box"><h3>📦 Orders - Tracking</h3><div id="oList"></div></div>
+<div class="box"><h3>💸 Withdraw - Approve/Reject</h3><div id="wList"></div></div>
+<div class="box"><h3>🏪 Products - Delete Fake</h3><div id="pList"></div></div>
+<div class="box"><h3>⭐ Reviews</h3><div id="rList"></div></div>
 </div>
-
-<div id="mePage" class="page"><div class="wallet"><h2 id="meName">Guest</h2><div id="mePhone" style="font-size:12px"></div><div id="meCity" style="font-size:11px;opacity:.8"></div></div><div class="box"><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee" onclick="openP('cart')"><span>📦 My Orders</span><span>›</span></div><div style="display:flex;justify-content:space-between;padding:10px 0" onclick="logout()"><span style="color:red">🚪 Logout</span><span>›</span></div></div></div>
-
-<div id="detail"><div style="padding:10px;display:flex;justify-content:space-between;position:sticky;top:0;background:#fff;border-bottom:1px solid #eee"><button onclick="closeDetail()" style="border:none;background:#eef2f6;padding:7px 14px;border-radius:20px">✕ Back</button><b>Detail</b><span></span></div><img id="dImg" style="width:100%;height:300px;object-fit:cover"><div style="padding:14px"><h2 id="dName"></h2><div id="dPrice" style="font-size:20px;font-weight:900;color:var(--blue);margin:6px 0"></div><div id="dStock" style="font-size:11px;color:var(--green)"></div><p id="dDesc" style="background:#f8fafc;padding:10px;border-radius:12px;margin-top:10px;font-size:13px"></p><div style="display:flex;gap:8px;margin-top:12px"><button onclick="addToCartCurrent()" class="btn btn-blue" style="flex:1">🛒 Add to Cart</button><button onclick="buyCurrent()" class="btn btn-orange" style="flex:1">⚡ Buy Now</button></div></div></div>
-
-<div id="checkoutM" class="modal"><div class="sheet"><div style="display:flex;justify-content:space-between"><h3>✅ Delivery & Payment</h3><button onclick="closeCheckout()" style="border:none;background:#eee;padding:6px 12px;border-radius:20px">✕</button></div>
-<div style="margin-top:10px">
-<input id="cName" placeholder="👤 Full Name"><input id="cPhone" placeholder="📱 Contact No"><textarea id="cAddr" rows="3" placeholder="🏠 Mukammal Address - Gali, Mohalla, Ghar No"></textarea><div style="display:flex;gap:6px"><input id="cCity" placeholder="City"><input id="cPin" placeholder="Near Place"></div>
-<select id="cPay"><option value="COD">💵 Cash on Delivery</option><option value="JazzCash">📱 JazzCash</option><option value="Easypaisa">📱 Easypaisa</option><option value="Bank">🏦 Bank Transfer</option></select>
-<input id="cPayNum" placeholder="Payment Number (JazzCash/Easypaisa) - COD ho to khali chor do">
-<textarea id="cNote" rows="2" placeholder="Note - Size, Color etc"></textarea>
-<div id="cSummary" style="background:#f8fafc;padding:10px;border-radius:12px;margin-top:8px;font-size:12px"></div>
-<button onclick="confirmOrder()" class="btn btn-orange" style="font-size:16px">🚀 Confirm Order - Rs <span id="cTotal">0</span></button>
-</div></div></div>
-
-<div id="withdrawM" class="modal"><div class="sheet"><div style="display:flex;justify-content:space-between"><h3>💸 Withdraw Earning</h3><button onclick="closeWModal()" style="border:none;background:#eee;padding:6px 12px;border-radius:20px">✕</button></div>
-<div style="margin-top:10px"><div style="background:#f0fdf4;padding:10px;border-radius:12px;font-size:12px">Available Balance: <b id="wBal">Rs 0</b><br><span style="color:#666">Min withdraw Rs 500</span></div>
-<input id="wAmount" type="number" placeholder="Amount e.g. 1000"><select id="wMethod"><option value="JazzCash">JazzCash</option><option value="Easypaisa">Easypaisa</option><option value="Bank">Bank Account</option></select><input id="wAccount" placeholder="Account Number / IBAN"><input id="wName" placeholder="Account Title Name"><button onclick="requestWithdraw()" class="btn btn-green">Request Withdraw</button></div></div></div>
-
-<div class="bottom"><div id="b-home" class="bitem active" onclick="openP('home')"><i>🏠</i>Home</div><div id="b-cart" class="bitem" onclick="openP('cart')"><i>🛒</i>Cart</div><div id="b-seller" class="bitem" onclick="openP('seller')"><i>🏪</i>Seller</div><div id="b-me" class="bitem" onclick="openP('me')"><i>👤</i>Me</div></div>
-
 <script>
-let role='user',cat='All',current=null;
-let curUser=JSON.parse(localStorage.getItem('ar_user')||'null');
-let cart=JSON.parse(localStorage.getItem('arcart')||'[]');
-let products=JSON.parse(localStorage.getItem('arprod')||'null')||[
-{id:1,name:'iPhone 15 PTA 128GB',desc:'PTA Approved Box Pack',price:285000,cat:'Mobile',stock:5,img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400',seller:'03000000000'},
-{id:2,name:'Dir Woolen Jacket',desc:'Pure Wool Warm',price:4500,cat:'Kapre',stock:20,img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400',seller:'03000000000'},
-{id:3,name:'Nike Air Shoes',desc:'Original Size 40-44',price:8500,cat:'Shoes',stock:15,img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',seller:'03000000000'}
-];
-let users=JSON.parse(localStorage.getItem('ar_users')||'null')||[{name:'Demo User',phone:'03450000000',city:'Timergara',pass:'1234',role:'user'},{name:'Demo Seller',phone:'03000000000',city:'Timergara',pass:'1234',role:'seller'}];
-let orders=JSON.parse(localStorage.getItem('ar_orders')||'[]');
-let withdraws=JSON.parse(localStorage.getItem('ar_withdraws')||'[]');
-function save(){localStorage.setItem('arcart',JSON.stringify(cart));localStorage.setItem('arprod',JSON.stringify(products));localStorage.setItem('ar_users',JSON.stringify(users));localStorage.setItem('ar_orders',JSON.stringify(orders));localStorage.setItem('ar_withdraws',JSON.stringify(withdraws));}
-function setRole(r){role=r;document.getElementById('tUser').className=r==='user'?'active':'';document.getElementById('tSeller').className=r==='seller'?'active':'';document.getElementById('roleTab').className=r==='seller'?'tab seller':'tab';let tx=r==='user'?'User':'Seller';document.getElementById('btnLogin').innerText='Login as '+tx;document.getElementById('btnReg').innerText='Register as '+tx;document.getElementById('btnLogin').className=r==='seller'?'btn btn-orange':'btn btn-blue';document.getElementById('btnReg').className=r==='seller'?'btn btn-orange':'btn btn-blue';}
-function setMode(m){document.getElementById('tLogin').className=m==='login'?'active':'';document.getElementById('tReg').className=m==='register'?'active':'';document.getElementById('fLogin').style.display=m==='login'?'block':'none';document.getElementById('fReg').style.display=m==='register'?'block':'none';}
-function doReg(){let n=rName.value.trim(),ph=rPhone.value.trim(),ci=rCity.value.trim(),ps=rPass.value.trim();if(!n||!ph||!ps)return alert('Sab bharo');if(users.find(u=>u.phone===ph))return alert('Number pehle se hai');users.push({name:n,phone:ph,city:ci||'Timergara',pass:ps,role:role});save();alert('✅ Registered! Ab login karo');setMode('login');}
-function doLogin(){let u=users.find(x=>x.phone===lPhone.value.trim()&&x.pass===lPass.value.trim());if(!u)return alert('Ghalat');if(u.role!==role)return alert('Aap '+u.role+' hain, '+u.role+' tab select karo');curUser=u;localStorage.setItem('ar_user',JSON.stringify(u));afterLogin();}
-function afterLogin(){if(!curUser)return;document.getElementById('hUser').innerText='👋 '+curUser.name+' • '+curUser.role;document.getElementById('meName').innerText=curUser.name;document.getElementById('mePhone').innerText=curUser.phone;document.getElementById('meCity').innerText=curUser.city+' • '+curUser.role;document.getElementById('authPage').classList.remove('active');openP('home');render();renderCats();}
-function logout(){if(!confirm('Logout?'))return;localStorage.removeItem('ar_user');location.reload();}
-function openP(p){if(p!=='auth'&&!curUser){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById('authPage').classList.add('active');return}if(p==='seller'&&curUser.role!=='seller')return alert('Seller login se aao - 03000000000 / 1234');document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.bitem').forEach(e=>e.classList.remove('active'));let b=document.getElementById('b-'+p);if(b)b.classList.add('active');if(p==='cart'){renderCart();renderMyOrders();}if(p==='seller')renderSeller();}
-function renderCats(){let cats=['All','Mobile','Kapre','Shoes'];document.getElementById('catBar').innerHTML=cats.map(c=>`<div class="cat ${cat===c?'active':''}" onclick="setCat('${c}')">${c}</div>`).join('');}
-function setCat(c){cat=c;renderCats();render();}
-function render(){let q=(document.getElementById('q')?.value||'').toLowerCase();let list=products.filter(p=>(cat==='All'||p.cat===cat)&&p.name.toLowerCase().includes(q));document.getElementById('grid').innerHTML=list.map(p=>`<div class="card" onclick="openDetail(${p.id})"><img src="${p.img}" loading="lazy"><div class="info"><div style="font-size:13px;font-weight:600;height:32px;overflow:hidden">${p.name}</div><div style="font-size:11px;color:#888">Stock: ${p.stock} • ${p.cat}</div><div style="color:var(--blue);font-weight:900;margin-top:4px">Rs ${p.price.toLocaleString()}</div></div></div>`).join('');let t=cart.reduce((a,b)=>a+(b.qty||1),0);document.getElementById('cartTop').innerText=t;}
-function openDetail(id){current=products.find(x=>x.id===id);document.getElementById('detail').classList.add('show');dImg.src=current.img;dName.innerText=current.name;dPrice.innerText='Rs '+current.price.toLocaleString();dStock.innerText='✅ In Stock: '+current.stock+' | Category: '+current.cat;dDesc.innerText=current.desc;}
-function closeDetail(){document.getElementById('detail').classList.remove('show');}
-function addToCartCurrent(){addCart(current.id);}
-function addCart(id){let pr=products.find(x=>x.id===id);if(pr.stock<=0)return alert('Out of stock');let f=cart.find(x=>x.id===id);if(f){if(f.qty>=pr.stock)return alert('Stock khatam');f.qty++;}else cart.push({...pr,qty:1});save();render();alert('✅ Cart me add');}
-function buyCurrent(){addCart(current.id);closeDetail();openP('cart');}
-function renderCart(){let d=document.getElementById('cartList'),cnt=document.getElementById('cartCount');let t=cart.reduce((a,b)=>a+(b.qty||1),0);if(cnt)cnt.innerText=t;if(!cart.length){d.innerHTML='<p style="text-align:center;padding:20px;color:#888">Cart khali hai</p>';return}let tot=0;d.innerHTML=cart.map((c,i)=>{tot+=c.price*c.qty;return `<div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #eee"><img src="${c.img}" style="width:50px;height:50px;border-radius:8px;object-fit:cover"><div style="flex:1"><b style="font-size:12px">${c.name}</b><br><span style="font-size:11px;color:var(--blue)">Rs ${c.price.toLocaleString()} x ${c.qty}</span><div style="margin-top:4px"><button onclick="changeQty(${i},-1)" style="padding:2px 8px">-</button> ${c.qty} <button onclick="changeQty(${i},1)" style="padding:2px 8px">+</button></div></div><button onclick="cart.splice(${i},1);save();renderCart();render()" style="border:none;background:none;color:red">✕</button></div>`}).join('')+`<div style="margin-top:10px"><div style="display:flex;justify-content:space-between;font-weight:900"><span>Subtotal:</span><span>Rs ${tot.toLocaleString()}</span></div><div style="display:flex;justify-content:space-between;font-size:12px;color:#666"><span>Delivery (150):</span><span>Rs 150</span></div><div style="display:flex;justify-content:space-between;font-weight:900;font-size:16px;color:var(--blue);margin-top:6px"><span>Total:</span><span>Rs ${(tot+150).toLocaleString()}</span></div><button onclick="openCheckout()" class="btn btn-orange" style="margin-top:10px">✅ Checkout - Address & Payment</button></div>`;}
-function changeQty(i,d){let pr=products.find(x=>x.id===cart[i].id);cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);else if(cart[i].qty>pr.stock){cart[i].qty=pr.stock;alert('Max stock '+pr.stock);}save();renderCart();render();}
-function renderMyOrders(){let my=orders.filter(o=>o.userPhone===curUser.phone);let el=document.getElementById('myOrders');if(!my.length){el.innerHTML='<p style="font-size:12px;color:#888">Abhi koi order nahi</p>';return}el.innerHTML=my.slice().reverse().map(o=>`<div style="border:1px solid #eee;border-radius:12px;padding:8px;margin:6px 0;font-size:12px"><b>${o.id}</b> - ${o.status}<br>Total: Rs ${o.total.toLocaleString()} - ${o.pay}<br><span style="color:#666">${o.date}</span></div>`).join('');}
-function openCheckout(){if(!cart.length)return;let tot=cart.reduce((a,b)=>a+b.price*b.qty,0);document.getElementById('cName').value=curUser.name||'';document.getElementById('cPhone').value=curUser.phone||'';document.getElementById('cCity').value=curUser.city||'';document.getElementById('cTotal').innerText=(tot+150).toLocaleString();document.getElementById('cSummary').innerHTML=`<b>${cart.length} Items</b><br>Subtotal Rs ${tot.toLocaleString()} + Delivery 150 = <b>Rs ${(tot+150).toLocaleString()}</b>`;document.getElementById('checkoutM').classList.add('show');}
-function closeCheckout(){document.getElementById('checkoutM'
+let users=JSON.parse(localStorage.getItem('ar_users')||'[]');let orders=JSON.parse(localStorage.getItem('ar_orders')||'[]');let products=JSON.parse(localStorage.getItem('arprod')||'[]');let withdraws=JSON.parse(localStorage.getItem('ar_withdraws')||'[]');let reviews=JSON.parse(localStorage.getItem('ar_reviews')||'[]');
+function save(){localStorage.setItem('ar_users',JSON.stringify(users));localStorage.setItem('ar_orders',JSON.stringify(orders));localStorage.setItem('arprod',JSON.stringify(products));localStorage.setItem('ar_withdraws',JSON.stringify(withdraws));localStorage.setItem('ar_reviews',JSON.stringify(reviews));}
+function login(){if(aUser.value==='admin'&&aPass.value==='admin123'){loginBox.style.display='none';panel.style.display='block';render();}else alert('Wrong');}
+function render(){tUsers.innerText=users.length;tOrders.innerText=orders.length;tProds.innerText=products.length;
+uList.innerHTML=users.map((u,i)=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:12px"><span><b>${u.name}</b> ${u.phone} Coins:${u.coins||0}</span><button onclick="delUser(${i})" class="btn btn-red" style="padding:4px 8px;font-size:11px">Delete</button></div>`).join('');
+oList.innerHTML=orders.slice().reverse().map(o=>`<div style="border:1px solid #eee;padding:8px;border-radius:10px;margin:5px 0;font-size:11px"><b>${o.id}</b> ${o.customerName} ${o.customerPhone}<br>${o.items.map(i=>i.name+' x'+i.qty).join(', ')}<br>Rs ${o.total} | ${o.pay} ${o.payNum||''} | ${o.address}<br>Status: <select onchange="updOrd('${o.id}',this.value)"><option ${o.status==='Pending'?'selected':''}>Pending</option><option ${o.status==='Packed'?'selected':''}>Packed</option><option ${o.status==='Shipped'?'selected':''}>Shipped</option><option ${o.status==='Delivered'?'selected':''}>Delivered</option></select> <button onclick="delOrd('${o.id}')" class="btn btn-red" style="padding:4px 8px;font-size:10px">Delete</button></div>`).join('')||'No orders';
+wList.innerHTML=withdraws.slice().reverse().map((w,i)=>`<div style="border:1px solid #eee;padding:8px;border-radius:10px;margin:5px 0;font-size:11px"><b>Rs ${w.amount}</b> ${w.seller} ${w.method} ${w.account}<br>${w.status} | ${w.date}<br><button onclick="approveW(${withdraws.length-1-i})" class="btn btn-green" style="padding:4px 8px;font-size:10px">Approve</button> <button onclick="rejectW(${withdraws.length-1-i})" class="btn btn-red" style="padding:4px 8px;font-size:10px">Reject</button></div>`).join('')||'No withdraw';
+pList.innerHTML=products.map((p,i)=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #eee;font-size:11px"><img src="${p.img}" style="width:40px;height:40px;border-radius:6px"><div style="flex:1"><b>${p.name}</b><br>Rs ${p.price} Seller ${p.seller}</div><button onclick="delProd(${i})" class="btn btn-red" style="padding:4px 8px">Delete</button></div>`).join('');
+rList.innerHTML=reviews.slice().reverse().map((r,i)=>`<div style="border-bottom:1px solid #eee;padding:6px 0;font-size:11px"><b>${r.userName}</b> Prod ${r.prodId} ${'★'.repeat(r.star)}<br>${r.text} <button onclick="delRev(${reviews.length-1-i})" style="color:red;border:none;background:none">Delete</button></div>`).join('')||'No reviews';
+}
+function delUser(i){if(!confirm('Delete?'))return;users.splice(i,1);save();render();}
+function delOrd(id){if(!confirm('Delete?'))return;orders=orders.filter(o=>o.id!==id);save();render();}
+function updOrd(id,s){let o=orders.find(x=>x.id===id);if(o){o.status=s;save();render();}}
+function approveW(i){withdraws[i].status='Approved';save();render();}
+function rejectW(i){withdraws[i].status='Rejected';save();render();}
+function delProd(i){if(!confirm('Delete?'))return;products.splice(i,1);save();render();}
+function delRev(i){reviews.splice(i,1);save();render();}
+</script></body></html>

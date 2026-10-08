@@ -1,61 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AsliRate - Original Price in Pakistan</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>AsliRate - Timergara ka Asli Bazaar</title>
+<meta name="description" content="Timergara Dir Lower ka sabse sasta bazaar - Mobile, Kapre, Shoes original rate par">
 <style>
-body{margin:0;font-family:system-ui;background:#f2f4f7}
-.header{background:#0f4c81;color:#fff;padding:12px;display:flex;justify-content:space-between;position:sticky;top:0}
-.page{display:none;padding:10px}.page.active{display:block}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{background:#fff;border-radius:12px;padding:8px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-.card img{width:100%;height:120px;object-fit:cover;border-radius:8px}
-.auth-box{background:#fff;margin:20px;border-radius:15px;padding:20px}
-input{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}
-.btn{width:100%;padding:12px;border:none;border-radius:8px;background:#0f4c81;color:#fff;font-weight:800}
+:root{--blue:#0b3d6b;--blue2:#1668b0;--orange:#ff6f00;--bg:#f3f5f8;--green:#00a651}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+body{background:var(--bg);padding-bottom:75px;color:#222}
+.header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:12px 14px;position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center}
+.page{display:none;animation:fade .2s}.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.auth-wrap{min-height:90vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.auth-box{background:#fff;width:100%;max-width:380px;border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.1)}
+.tab{display:flex;background:#f2f4f7;border-radius:30px;padding:4px;margin:12px 0}
+.tab button{flex:1;border:none;padding:10px;border-radius:20px;font-weight:700;background:none;cursor:pointer}
+.tab .active{background:var(--blue);color:#fff}
+.tab.seller .active{background:var(--orange)}
+input,textarea,select{width:100%;padding:12px 14px;margin:6px 0;border:1.5px solid #e6e8eb;border-radius:12px;font-size:14px;outline:none}
+input:focus{border-color:var(--blue2)}
+.btn{width:100%;padding:13px;border:none;border-radius:12px;font-weight:800;cursor:pointer;margin-top:8px;font-size:14px}
+.btn-blue{background:var(--blue);color:#fff}.btn-orange{background:var(--orange);color:#fff}
+.banner{background:linear-gradient(135deg,#0f4c81,#3aa0ff);margin:10px;border-radius:16px;padding:16px;color:#fff}
+.cat-bar{display:flex;gap:8px;overflow-x:auto;padding:10px 10px 0}
+.cat{white-space:nowrap;background:#fff;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid #eee}
+.cat.active{background:var(--blue);color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer}
+.card img{width:100%;height:150px;object-fit:cover}
+.card .info{padding:8px}
+.wallet{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:16px;padding:18px;margin:10px}
+.menu{background:#fff;margin:10px;border-radius:16px;overflow:hidden}
+.menu div{padding:14px;display:flex;justify-content:space-between;border-bottom:1px solid #f2f2f2;font-size:14px;cursor:pointer}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #eee;z-index:100}
+.bitem{flex:1;text-align:center;padding:8px 0;font-size:11px;color:#888;cursor:pointer}
+.bitem.active{color:var(--blue);font-weight:800}
+.bitem i{font-style:normal;font-size:22px;display:block}
+#detail{position:fixed;inset:0;background:#fff;z-index:200;overflow:auto;display:none}
+#detail.show{display:block}
+.qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border-radius:8px;border:1px solid #ddd;background:#fff}
 </style>
 </head>
 <body>
-<div class="header"><b>AsliRate</b><span id="cartTop">🛒 0</span></div>
+<div class="header"><div><b style="font-size:18px">AsliRate</b><div id="headerUser" style="font-size:11px;opacity:.9">Timergara Bazaar</div></div><div onclick="openP('cart')" style="background:#fff;color:var(--blue);padding:6px 12px;border-radius:20px;font-weight:800">🛒 <span id="cartTop">0</span></div></div>
 
-<div id="authPage" class="page active">
- <div class="auth-box">
-  <h2 style="text-align:center">Welcome to AsliRate</h2>
-  <input id="lPhone" placeholder="Mobile Number - 0345...">
-  <input id="lPass" type="password" placeholder="Password - 1234">
-  <button class="btn" onclick="login()">Login</button>
-  <p style="font-size:12px;text-align:center;margin-top:10px;color:#666">Demo: 03450000000 / 1234</p>
- </div>
-</div>
+<!-- AUTH -->
+<div id="authPage" class="page active"><div class="auth-wrap"><div class="auth-box">
+<h2 style="text-align:center;color:var(--blue)">Welcome to AsliRate</h2><p style="text-align:center;font-size:12px;color:#666;margin:6px 0 12px">Timergara ka apna bazaar</p>
+<div class="tab" id="roleTab"><button id="tabUser" class="active" onclick="setRole('user')">👤 User</button><button id="tabSeller" onclick="setRole('seller')">🏪 Seller</button></div>
+<div class="tab"><button id="tabLogin" class="active" onclick="setMode('login')">Login</button><button id="tabReg" onclick="setMode('register')">Register</button></div>
+<div id="loginForm"><input id="lPhone" placeholder="📱 Mobile e.g. 03451234567"><input id="lPass" type="password" placeholder="🔒 Password"><button class="btn btn-blue" id="loginBtn" onclick="login()">Login as User</button></div>
+<div id="regForm" style="display:none"><input id="rName" placeholder="👤 Full Name"><input id="rPhone" placeholder="📱 Mobile Number"><input id="rCity" placeholder="📍 City e.g. Timergara"><input id="rPass" type="password" placeholder="🔒 Password (min 4)"><button class="btn btn-blue" id="regBtn" onclick="register()">Register as User</button></div>
+<div style="background:#f9fafb;padding:10px;border-radius:10px;margin-top:14px;font-size:11px"><b>Demo Login:</b><br>👤 User: 03450000000 / 1234<br>🏪 Seller: 03000000000 / 1234</div>
+</div></div></div>
 
-<div id="homePage" class="page"><input id="q" placeholder="Search..." oninput="render()" style="margin-bottom:10px"><div id="grid" class="grid"></div></div>
+<!-- HOME -->
+<div id="homePage" class="page"><div class="banner"><h3>🔥 Asli Rate, Asli Cheez!</h3><p style="font-size:12px;opacity:.9;margin-top:4px">Dir Lower me sab se sasta aur original</p></div>
+<div style="padding:10px"><input id="q" placeholder="🔍 Search Mobile, Kapre, Shoes..." oninput="render()" style="border-radius:25px"></div>
+<div class="cat-bar" id="catBar"></div><div id="grid" class="grid"></div></div>
+
+<!-- CART -->
+<div id="cartPage" class="page"><div style="background:#fff;margin:10px;border-radius:16px;padding:14px"><h3>🛒 My Cart - <span id="cartC">0</span> items</h3><div id="cartList" style="margin-top:12px"></div></div></div>
+
+<!-- SELLER -->
+<div id="sellerPage" class="page"><div style="background:#fff;margin:10px;border-radius:16px;padding:14px"><h3>🏪 Seller Panel - <span id="sellerName"></span></h3><p style="font-size:11px;color:#666">Yahan apna product add karo</p>
+<input id="pn" placeholder="Product Name e.g. iPhone 15"><textarea id="pd" placeholder="Description" rows="2"></textarea><div style="display:flex;gap:6px"><input id="pp" type="number" placeholder="Price Rs" style="flex:1"><input id="pc" placeholder="Category e.g. Mobile" style="flex:1"></div><input id="pi" placeholder="Image URL (optional)"><button onclick="addProd()" class="btn btn-orange">+ Add Product</button>
+<h4 style="margin-top:16px">My Products</h4><div id="sellerList"></div></div></div>
+
+<!-- ME -->
+<div id="mePage" class="page"><div class="wallet"><p style="font-size:11px;opacity:.8">Logged in as</p><h2 id="meName">Guest</h2><p id="mePhone" style="font-size:12px;opacity:.9">---</p><div style="margin-top:10px;display:flex;gap:8px"><span style="background:rgba(255,255,255,.2);padding:6px 10px;border-radius:20px;font-size:11px">💰 Wallet: Rs 2,500</span><span style="background:rgba(255,255,255,.2);padding:6px 10px;border-radius:20px;font-size:11px">⭐ Trusted</span></div></div>
+<div class="menu"><div onclick="openP('cart')"><span>📦 My Orders</span><span>›</span></div><div><span>❤️ Wishlist</span><span id="wishCount">0</span></div><div><span>👁️ Views</span><span id="viewCount">0</span></div><div onclick="logout()" style="color:red"><span>🚪 Logout</span><span>›</span></div></div></div>
+
+<!-- DETAIL -->
+<div id="detail"><div style="position:sticky;top:0;background:#fff;padding:10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee"><button onclick="closeDetail()" style="border:none;background:#f2f4f7;padding:8px 14px;border-radius:20px">✕ Back</button><b>Product Detail</b><span></span></div><img id="dImg" style="width:100%;height:300px;object-fit:cover"><div style="padding:14px"><h2 id="dName"></h2><div id="dPrice" style="margin:6px 0;font-size:20px;font-weight:900;color:var(--blue)"></div><div id="dMeta" style="font-size:11px;color:#666"></div><p id="dDesc" style="margin:12px 0;font-size:13px;background:#f9fafb;padding:12px;border-radius:12px"></p><div style="display:flex;gap:8px;margin-top:12px"><button onclick="addCartFromDetail()" class="btn btn-blue" style="flex:1">🛒 Add to Cart</button><button onclick="buyNow()" class="btn btn-orange" style="flex:1">⚡ Buy Now</button></div></div></div>
+
+<div class="bottom"><div id="b-home" class="bitem active" onclick="openP('home')"><i>🏠</i>Home</div><div id="b-cart" class="bitem" onclick="openP('cart')"><i>🛒</i>Cart <span id="navCart"></span></div><div id="b-seller" class="bitem" onclick="openP('seller')"><i>🏪</i>Seller</div><div id="b-me" class="bitem" onclick="openP('me')"><i>👤</i>Me</div></div>
 
 <script>
+let authRole='user', authMode='login', cat='All';
 let currentUser=JSON.parse(localStorage.getItem('ar_user')||'null');
-let products=[
-{id:1,name:'iPhone 15 PTA',price:285000,img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400'},
-{id:2,name:'Dir Woolen Jacket',price:4500,img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400'}
-];
 let cart=JSON.parse(localStorage.getItem('arcart')||'[]');
-function login(){
- let ph=document.getElementById('lPhone').value;
- if(ph==='03450000000'){currentUser={name:'Demo User',phone:ph};localStorage.setItem('ar_user',JSON.stringify(currentUser));showHome();}
- else{alert('Demo ke liye 03450000000 use karo')}
-}
-function showHome(){
- document.getElementById('authPage').classList.remove('active');
- document.getElementById('homePage').classList.add('active');
- render();
-}
-function render(){
- let qEl=document.getElementById('q'); let q=qEl ? qEl.value.toLowerCase() : '';
- let list=products.filter(p=>p.name.toLowerCase().includes(q));
- document.getElementById('grid').innerHTML=list.map(p=>`<div class="card" onclick="addCart(${p.id})"><img src="${p.img}"><b style="font-size:13px">${p.name}</b><br><b style="color:#0f4c81">Rs ${p.price}</b></div>`).join('');
- document.getElementById('cartTop').innerText='🛒 '+cart.length;
-}
-function addCart(id){cart.push(products.find(x=>x.id===id));localStorage.setItem('arcart',JSON.stringify(cart));render();alert('Added to Cart')}
-if(currentUser){showHome();}
+let products=JSON.parse(localStorage.getItem('arprod')||'null')||[
+{id:1,name:'iPhone 15 - 128GB PTA Approved',desc:'Original Box Pack PTA Approved, 1 Year Warranty',price:285000,cat:'Mobile',img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400',seller:'03000000000',views:1245,likes:89},
+{id:2,name:'Dir Woolen Jacket - Warm',desc:'Garam jacket Dir Lower ke liye, pure wool',price:4500,cat:'Kapre',img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400',seller:'03000000000',views:892,likes:45},
+{id:3,name:'Nike Air Shoes - Original',desc:'Original Nike, size 40-44 available',price:8500,cat:'Shoes',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',seller:'03000000000',views:560,likes:34},
+{id:4,name:'Samsung S24 Ultra',desc:'12GB 256GB, Brand New',price:295000,cat:'Mobile',img:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400',seller:'03000000000',views:320,likes:21}
+];
+let users=JSON.parse(localStorage.getItem('ar_users')||'null')||[
+{name:'Demo User',phone:'03450000000',city:'Timergara',pass:'1234',role:'user'},
+{name:'Demo Seller',phone:'03000000000',city:'Timergara',pass:'1234',role:'seller'}
+];
+let current=null;
+function save(){localStorage.setItem('arcart',JSON.stringify(cart));localStorage.setItem('arprod',JSON.stringify(products));localStorage.setItem('ar_users',JSON.stringify(users));}
+function setRole(r){authRole=r;document.getElementById('tabUser').className=r==='user'?'active':'';document.getElementById('tabSeller').className=r==='seller'?'active':'';document.getElementById('roleTab').className=r==='seller'?'tab seller':'tab';let txt=r==='user'?'User':'Seller';document.getElementById('loginBtn').innerText='Login as '+txt;document.getElementById('regBtn').innerText='Register as '+txt;document.getElementById('loginBtn').className=r==='seller'?'btn btn-orange':'btn btn-blue';document.getElementById('regBtn').className=r==='seller'?'btn btn-orange':'btn btn-blue';}
+function setMode(m){authMode=m;document.getElementById('tabLogin').className=m==='login'?'active':'';document.getElementById('tabReg').className=m==='register'?'active':'';document.getElementById('loginForm').style.display=m==='login'?'block':'none';document.getElementById('regForm').style.display=m==='register'?'block':'none';}
+function register(){let n=(document.getElementById('rName').value||'').trim(), ph=(document.getElementById('rPhone').value||'').trim(), city=(document.getElementById('rCity').value||'').trim(), p=(document.getElementById('rPass').value||'').trim(); if(!n||!ph||!p) return alert('Sab fields bharo'); if(p.length<4) return alert('Password min 4'); if(users.find(u=>u.phone===ph)) return alert('Ye number pehle se hai'); users.push({name:n,phone:ph,city:city||'Timergara',pass:p,role:authRole}); save(); alert('✅ Success! Ab Login karo'); setMode('login');}
+function login(){let ph=(document.getElementById('lPhone').value||'').trim(), ps=(document.getElementById('lPass').value||'').trim(); let u=users.find(x=>x.phone===ph && x.pass===ps); if(!u) return alert('❌ Number ya Password ghalat'); if(u.role!==authRole) return alert('Aap '+u.role+' hain, '+authRole+' tab select karein'); currentUser=u; localStorage.setItem('ar_user',JSON.stringify(u)); afterLogin();}
+function afterLogin(){if(!currentUser){openP('auth');return} let h=document.getElementById('headerUser'); if(h) h.innerText='👋 '+currentUser.name+' • '+currentUser.role; let mn=document.getElementById('meName'), mp=document.getElementById('mePhone'), sn=document.getElementById('sellerName'); if(mn) mn.innerText=currentUser.name; if(mp) mp.innerText=currentUser.phone+' • '+(currentUser.city||'')+' • '+currentUser.role; if(sn) sn.innerText=currentUser.name; document.getElementById('authPage').classList.remove('active'); openP('home'); render(); renderCats();}
+function logout(){if(!confirm('Logout karna hai?')) return; currentUser=null; localStorage.removeItem('ar_user'); cart=[]; save(); location.reload();}
+function openP(p){if(p!=='auth' && !currentUser){document.querySelectorAll('.page').forEach(e=>e.classList.remove('active')); document.getElementById('authPage').classList.add('active'); return} if(p==='seller' && currentUser && currentUser.role!=='seller'){alert('Sirf Seller Seller Panel dekh sakta hai. Seller Login: 03000000000 / 1234'); return} document.querySelectorAll('.page').forEach(e=>e.classList.remove('active')); let pg=document.getElementById(p+'Page'); if(pg) pg.classList.add('active'); document.querySelectorAll('.bitem').forEach(e=>e.classList.remove('active')); let b=document.getElementById('b-'+p); if(b) b.classList.add('active'); if(p==='cart') renderCart(); if(p==='seller') renderSeller();}
+function renderCats(){let cats=['All','Mobile','Kapre','Shoes']; let bar=document.getElementById('catBar'); if(!bar) return; bar.innerHTML=cats.map(c=>`<div class="cat ${cat===c?'active':''}" onclick="setCat('${c}')">${c}</div>`).join('');}
+function setCat(c){cat=c; renderCats(); render();}
+function render(){let qEl=document.getElementById('q'); let q=qEl? (qEl.value||'').toLowerCase():''; let list=products.filter(p=>{let m=cat==='All'||p.cat===cat; let s=p.name.toLowerCase().includes(q); return m&&s;}); let g=document.getElementById('grid'); if(!g) return; if(!list.length){g.innerHTML='<p style="grid-column:1/-1;text-align:center;padding:30px;color:#888">No Product Found</p>'; return} g.innerHTML=list.map(p=>`<div class="card" onclick="openDetail(${p.id})"><img src="${p.img}" loading="lazy"><div class="info"><div style="font-size:13px;font-weight:600;height:32px;overflow:hidden">${p.name}</div><div style="font-size:10px;color:#888;margin:4px 0">👁️ ${p.views||0} • ❤️ ${p.likes||0}</div><div style="color:var(--blue);font-weight:900">Rs ${p.price.toLocaleString()}</div><div style="margin-top:6px;display:flex;gap:4px"><span style="flex:1;background:var(--blue);color:#fff;text-align:center;padding:6px;border-radius:8px;font-size:11px">🛒 Cart</span><span style="flex:1;background:var(--orange);color:#fff;text-align:center;padding:6px;border-radius:8px;font-size:11px">Buy</span></div></div></div>`).join(''); let t=cart.reduce((a,b)=>a+(b.qty||1),0); let ct=document.getElementById('cartTop'), nc=document.getElementById('navCart'); if(ct) ct.innerText=t; if(nc) nc.innerText=t?`(${t})`:''; let cc=document.getElementById('cartC'); if(cc) cc.innerText=t;}
+function openDetail(id){let p=products.find(x=>x.id===id); if(!p) return; current=p; p.views=(p.views||0)+1; save(); document.getElementById('detail').classList.add('show'); document.getElementById('dImg').src=p.img; document.getElementById('dName').innerText=p.name; document.getElementById('dPrice').innerText='Rs '+p.price.toLocaleString(); document.getElementById('dMeta').innerText=(p.cat||'')+' • 👁️ '+(p.views||0)+' Views • ❤️ '+(p.likes||0)+' Likes'; document.getElementById('dDesc').innerText=p.desc||'';}
+function closeDetail(){document.getElementById('detail').classList.remove('show'); render();}
+function addCart(id){let pr=products.find(x=>x.id===id); if(!pr) return; let f=cart.find(x=>x.id===id); if(f) f.qty=(f.qty||1)+1; else cart.push({...pr,qty:1}); save(); render(); alert('✅ Cart me add ho gaya');}
+function addCartFromDetail(){if(current) addCart(current.id);}
+function buyNow(){if(current) addCart(current.id); closeDetail(); openP('cart');}
+function renderCart(){let d=document.getElementById('cartList'); if(!d) return; if(!cart.length){d.innerHTML='<div style="text-align:center;padding:30px"><p style="font-size:40px">🛒</p><p style="color:#888">Cart Khali Hai</p><button onclick="openP(\'home\')" class="btn btn-blue" style="margin-top:10px">Shopping Start Karo</button></div>'; return} let tot=0; d.innerHTML=cart.map((c,i)=>{tot+=c.price*(c.qty||1); return `<div style="display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #f0f0f0"><img src="${c.img}" style="width:60px;height:60px;border-radius:10px;object-fit:cover"><div style="flex:1"><b style="font-size:13px">${c.name}</b><br><span style="font-size:12px;color:var(--blue);font-weight:700">Rs ${c.price.toLocaleString()}</span><div class="qty" style="margin-top:6px"><button onclick="chQty(${i},-1)">-</button><span>${c.qty||1}</span><button onclick="chQty(${i},1)">+</button></div></div><button onclick="rem(${i})" style="border:none;background:none;color:red;font-size:18px">✕</button></div>`}).join('')+`<div style="padding:14px 0"><div style="display:flex;justify-content:space-between;font-weight:900;font-size:16px"><span>Total:</span><span>Rs ${tot.toLocaleString()}</span></div><button onclick="checkout()" class="btn btn-orange" style="margin-top:10px">✅ Order Place Karo - Rs ${tot.toLocaleString()}</button></div>`;}
+function chQty(i,d){cart[i].qty=(cart[i].qty||1)+d; if(cart[i].qty<1) cart.splice(i,1); save(); renderCart(); render();}
+function rem(i){cart.splice(i,1); save(); renderCart(); render();}
+function checkout(){if(!cart.length) return; alert('🎉 Mubarak! Order Place Ho Gaya\nTotal: Rs '+cart.reduce((a,b)=>a+b.price*(b.qty||1),0).toLocaleString()+'\nHamari team aap se rabta karegi'); cart=[]; save(); render(); openP('home');}
+function addProd(){if(!currentUser||currentUser.role!=='seller') return alert('Seller login required'); let n=(document.getElementById('pn').value||'').trim(), d=(document.getElementById('pd').value||'').trim(), pr=parseInt(document.getElementById('pp').value||'0'), c=(document.getElementById('pc').value||'General').trim(), im=(document.getElementById('pi').value||'').trim(); if(!n||!pr) return alert('Name aur Price lazmi'); products.unshift({id:Date.now(),name:n,desc:d||'No description',price:pr,cat:c,img:im||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',seller:currentUser.phone,views:0,likes:0}); save(); render(); renderSeller(); document.getElementById('pn').value=''; document.getElementById('pp').value=''; alert('✅ Product Added');}
+function renderSeller(){let list=products.filter(p=>currentUser && p.seller===currentUser.phone); let el=document.getElementById('sellerList'); if(!el) return; if(!list.length){el.innerHTML='<p style="color:#888;font-size:12px;margin-top:10px">Abhi koi product nahi</p>'; return} el.innerHTML=list.map(p=>`<div style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0"><img src="${p.img}" style="width:40px;height:40px;border-radius:8px"><div style="flex:1"><b style="font-size:12px">${p.name}</b><br><span style="font-size:11px;color:#666">Rs ${p.price.toLocaleString()} • ${p.cat}</span></div></div>`).join('');}
+if(currentUser) afterLogin();
 </script>
 </body>
-</html>
+                                                                                                                                                                                                                                                                                                           </html>

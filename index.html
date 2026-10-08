@@ -1,36 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AsliRate - Original Price in Pakistan</title>
 <style>
-:root{--blue:#0f4c81;--orange:#ff6f00;--bg:#f2f4f7}
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:var(--bg);padding-bottom:70px}
-.header{background:var(--blue);color:#fff;padding:12px 14px;position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center}
-.page{display:none}.page.active{display:block}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #eee;z-index:100}
-.bitem{flex:1;text-align:center;padding:8px 0;font-size:11px;color:#777}
-.bitem.active{color:var(--blue);font-weight:800}
-.auth-box{background:#fff;margin:20px 14px;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
-.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.06)}
-.card img{width:100%;height:140px;object-fit:cover}
+body{margin:0;font-family:system-ui;background:#f2f4f7}
+.header{background:#0f4c81;color:#fff;padding:12px;display:flex;justify-content:space-between;position:sticky;top:0}
+.page{display:none;padding:10px}.page.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:#fff;border-radius:12px;padding:8px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+.card img{width:100%;height:120px;object-fit:cover;border-radius:8px}
+.auth-box{background:#fff;margin:20px;border-radius:15px;padding:20px}
+input{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}
+.btn{width:100%;padding:12px;border:none;border-radius:8px;background:#0f4c81;color:#fff;font-weight:800}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="header"><b>AsliRate</b><span id="cartTop">🛒 0</span></div>
-  <div id="homePage" class="page active"><div id="grid" class="grid"></div></div>
+<div class="header"><b>AsliRate</b><span id="cartTop">🛒 0</span></div>
+
+<div id="authPage" class="page active">
+ <div class="auth-box">
+  <h2 style="text-align:center">Welcome to AsliRate</h2>
+  <input id="lPhone" placeholder="Mobile Number - 0345...">
+  <input id="lPass" type="password" placeholder="Password - 1234">
+  <button class="btn" onclick="login()">Login</button>
+  <p style="font-size:12px;text-align:center;margin-top:10px;color:#666">Demo: 03450000000 / 1234</p>
+ </div>
 </div>
+
+<div id="homePage" class="page"><input id="q" placeholder="Search..." oninput="render()" style="margin-bottom:10px"><div id="grid" class="grid"></div></div>
+
 <script>
-// Aapka purana data safe rahega, maine bas logic fix kiya hai
-let currentUser = JSON.parse(localStorage.getItem('ar_user')||'null');
-let products = JSON.parse(localStorage.getItem('arprod')||'null') || [
-{id:1,name:'iPhone 15 - PTA',price:285000,img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400',seller:'03000000000'},
-{id:2,name:'Dir Woolen Jacket',price:4500,img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400',seller:'03000000000'}
+let currentUser=JSON.parse(localStorage.getItem('ar_user')||'null');
+let products=[
+{id:1,name:'iPhone 15 PTA',price:285000,img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400'},
+{id:2,name:'Dir Woolen Jacket',price:4500,img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400'}
 ];
-// ... baqi JS same rahega
+let cart=JSON.parse(localStorage.getItem('arcart')||'[]');
+function login(){
+ let ph=document.getElementById('lPhone').value;
+ if(ph==='03450000000'){currentUser={name:'Demo User',phone:ph};localStorage.setItem('ar_user',JSON.stringify(currentUser));showHome();}
+ else{alert('Demo ke liye 03450000000 use karo')}
+}
+function showHome(){
+ document.getElementById('authPage').classList.remove('active');
+ document.getElementById('homePage').classList.add('active');
+ render();
+}
+function render(){
+ let qEl=document.getElementById('q'); let q=qEl ? qEl.value.toLowerCase() : '';
+ let list=products.filter(p=>p.name.toLowerCase().includes(q));
+ document.getElementById('grid').innerHTML=list.map(p=>`<div class="card" onclick="addCart(${p.id})"><img src="${p.img}"><b style="font-size:13px">${p.name}</b><br><b style="color:#0f4c81">Rs ${p.price}</b></div>`).join('');
+ document.getElementById('cartTop').innerText='🛒 '+cart.length;
+}
+function addCart(id){cart.push(products.find(x=>x.id===id));localStorage.setItem('arcart',JSON.stringify(cart));render();alert('Added to Cart')}
+if(currentUser){showHome();}
 </script>
 </body>
 </html>

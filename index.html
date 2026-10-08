@@ -1,213 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>AsliRate - V5 Super App</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AsliRate V6 - Professional App</title>
 <style>
-*{box-sizing:border-box;font-family:'Inter',system-ui;margin:0;padding:0}
-body{background:#f2f5f9;padding-bottom:80px}
-.header{background:#0b3d6b;color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}
-.logo{font-weight:800;font-size:18px}
+*{box-sizing:border-box;font-family:system-ui}body{margin:0;background:#eef2f7;padding-bottom:85px}
+.header{background:#0b3d6b;color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}
 .page{display:none}.page.active{display:block}
-.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0b3d6b,#1a6ab5);padding:15px}
-.auth-box{background:#fff;width:100%;max-width:400px;border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-.auth-box h2{text-align:center;color:#0b3d6b;margin-bottom:4px}
-.auth-box p{text-align:center;font-size:11px;color:#888;margin-bottom:14px}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1.5px solid #e1e5ea;border-radius:12px;font-size:14px;outline:none}
-input:focus{border-color:#0b3d6b}
-.btn{width:100%;padding:13px;border:none;border-radius:12px;font-weight:800;cursor:pointer;font-size:14px}
-.btn-blue{background:#0b3d6b;color:#fff}
-.btn-outline{background:#fff;border:1.5px solid #0b3d6b;color:#0b3d6b}
-.top-bar{display:flex;gap:8px;padding:10px;overflow-x:auto;background:#fff}
-.top-bar button{white-space:nowrap;padding:7px 14px;border-radius:20px;border:1px solid #ddd;background:#f6f7f9;font-size:12px}
-.top-bar button.active{background:#0b3d6b;color:#fff}
-.search-box{padding:10px;background:#fff}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0b3d6b,#2196f3);padding:12px}
+.auth-box{background:#fff;width:100%;max-width:420px;border-radius:18px;padding:18px}
+input,select,textarea{width:100%;padding:11px;margin:5px 0;border:1.5px solid #ddd;border-radius:10px}
+.btn{width:100%;padding:12px;border:none;border-radius:10px;font-weight:800;cursor:pointer;margin-top:6px}
+.btn-blue{background:#0b3d6b;color:#fff}.btn-green{background:#0a7a42;color:#fff}.btn-outline{background:#fff;border:1.5px solid #0b3d6b;color:#0b3d6b}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
-.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative}
-.card img{width:100%;height:140px;object-fit:cover}
-.card-body{padding:8px 10px}
-.card-title{font-size:13px;font-weight:700;height:32px;overflow:hidden}
-.card-price{color:#0b3d6b;font-weight:800;font-size:14px;margin-top:4px}
-.card-seller{font-size:10px;color:#888}
-.badge-new{position:absolute;top:6px;left:6px;background:#ff3b30;color:#fff;font-size:9px;padding:2px 6px;border-radius:10px}
-.box{background:#fff;margin:10px;border-radius:16px;padding:14px}
-.wallet-card{background:linear-gradient(135deg,#0b3d6b,#2d8de0);color:#fff;border-radius:16px;padding:16px;margin:10px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #eee;z-index:100}
-.bitem{flex:1;text-align:center;padding:8px 0;font-size:11px;color:#999;cursor:pointer}
-.bitem.active{color:#0b3d6b;font-weight:800}
-.bitem i{display:block;font-size:18px;margin-bottom:2px}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);position:relative}
+.card img{width:100%;height:145px;object-fit:cover}
+.card-body{padding:8px}
+.badge{position:absolute;top:6px;left:6px;background:#ff3b30;color:#fff;font-size:9px;padding:3px 6px;border-radius:10px}
+.box{background:#fff;margin:10px;border-radius:14px;padding:12px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #ddd;z-index:99}
+.bitem{flex:1;text-align:center;padding:7px 0;font-size:11px;color:#888;cursor:pointer}.bitem.active{color:#0b3d6b;font-weight:800}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200;padding:12px}
+.modal.active{display:flex}.modal-box{background:#fff;width:100%;max-width:420px;border-radius:16px;padding:14px;max-height:90vh;overflow:auto}
+.star{color:#ffb400;font-size:18px;cursor:pointer}
+.wish{position:absolute;top:6px;right:6px;background:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.track{display:flex;justify-content:space-between;margin:10px 0}.track div{width:22px;height:22px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:10px}.track div.done{background:#0a7a42;color:#fff}
+.langBtn{padding:4px 8px;border-radius:12px;border:1px solid #fff;background:rgba(255,255,255,.2);color:#fff;font-size:11px;cursor:pointer}
 </style>
 </head>
 <body>
-<div class="header"><div class="logo">AsliRate V5</div><div style="display:flex;gap:10px;align-items:center"><span id="coinTop" style="background:#ffb400;color:#000;padding:4px 8px;border-radius:12px;font-size:12px;font-weight:800">🪙0</span><div onclick="openP('cart')" style="background:#fff;color:#0b3d6b;padding:5px 12px;border-radius:20px;font-weight:800;font-size:12px">🛒 <span id="cartTop">0</span></div></div></div>
+<div class="header"><b id="appTitle">AsliRate V6 PRO</b><div style="display:flex;gap:8px;align-items:center"><button class="langBtn" onclick="toggleLang()" id="langBtn">اردو</button><span id="coinTop" style="background:#ffb400;color:#000;padding:4px 8px;border-radius:12px;font-size:11px;font-weight:800">🪙0</span><span onclick="openP('cart')" style="background:#fff;color:#0b3d6b;padding:4px 10px;border-radius:20px;font-size:12px">🛒<span id="cartTop">0</span></span><span onclick="openP('wishlist')" style="background:#fff;color:#ff3b30;padding:4px 8px;border-radius:20px;font-size:12px">❤️<span id="wishTop">0</span></span></div></div>
 
 <div id="authPage" class="page active"><div class="auth-wrap"><div class="auth-box">
-<h2>AsliRate</h2><p>V5 Super App - Pakistan's Trusted Marketplace</p>
-
-<div id="fLogin" style="display:block">
-<input id="lPhone" placeholder="Mobile Number e.g. 03451234567">
-<input id="lPass" type="password" placeholder="Password">
-<button class="btn btn-blue" onclick="doLogin()">LOGIN</button>
-<button onclick="showReg()" style="width:100%;margin-top:14px;padding:12px;border:1.5px solid #0b3d6b;color:#0b3d6b;background:#fff;border-radius:12px;font-weight:800;cursor:pointer">👉 New User? REGISTER NOW</button>
-<div style="margin-top:12px;background:#f6f8fa;padding:8px;border-radius:10px;font-size:11px;text-align:center">Demo Login: <b>03450000000</b> / <b>1234</b></div>
-</div>
-
-<div id="fReg" style="display:none">
-<input id="rName" placeholder="Full Name">
-<input id="rPhone" placeholder="Mobile Number (New)">
-<input id="rCity" placeholder="City e.g. Timergara">
-<input id="rAddr" placeholder="Full Address">
-<input id="rRef" placeholder="Referral Code (Optional)">
-<input id="rPass" type="password" placeholder="Create Password">
-<button class="btn btn-blue" onclick="doReg()">REGISTER + 50 COINS BONUS</button>
-<button onclick="showLogin()" style="width:100%;margin-top:14px;padding:12px;border:1px solid #ccc;color:#666;background:#fff;border-radius:12px;font-weight:600;cursor:pointer">Already have account? LOGIN</button>
-</div>
-
+<h2 style="text-align:center;color:#0b3d6b" id="tWelcome">Welcome to AsliRate</h2>
+<div id="fLogin"><input id="lPhone" placeholder="Mobile e.g. 03450000000"><input id="lPass" type="password" placeholder="Password"><button class="btn btn-blue" onclick="doLogin()">LOGIN</button><button onclick="showReg()" style="width:100%;margin-top:10px;padding:11px;border:1.5px solid #0b3d6b;color:#0b3d6b;background:#fff;border-radius:10px;font-weight:800">REGISTER NOW</button><div style="text-align:center;font-size:11px;margin-top:8px;background:#f6f8fa;padding:6px;border-radius:8px">Demo: 03450000000 / 1234</div></div>
+<div id="fReg" style="display:none"><input id="rName" placeholder="Full Name"><input id="rPhone" placeholder="New Mobile"><input id="rCity" placeholder="City"><input id="rAddr" placeholder="Address"><input id="rRef" placeholder="Referral Code (Optional)"><input id="rPass" type="password" placeholder="Password"><button class="btn btn-blue" onclick="doReg()">REGISTER + 50 Coins</button><button onclick="showLogin()" style="width:100%;margin-top:10px;padding:11px;border:1px solid #aaa;color:#666;background:#fff;border-radius:10px">Already have account? LOGIN</button></div>
 </div></div></div>
 
-<div id="homePage" class="page">
-<div class="search-box"><input id="sInput" oninput="doSearch()" placeholder="🔍 Search iPhone, Jacket, Watch..."></div>
-<div class="top-bar" id="catBar"></div>
-<div id="grid" class="grid"></div>
-</div>
+<div id="homePage" class="page"><div style="padding:10px;background:#fff;display:flex;gap:8px"><input id="sInput" oninput="render()" placeholder="Search..."><select id="catSel" onchange="render()" style="width:110px"><option value="All">All Cat</option><option>Mobile</option><option>Fashion</option><option>Watch</option><option>Shoes</option><option>Electronics</option></select></div><div id="grid" class="grid"></div></div>
 
-<div id="cartPage" class="page">
-<div class="box"><h3>🛒 My Cart</h3><div id="cartList" style="margin-top:10px"></div><div id="cartTotal" style="margin-top:12px;font-weight:800;font-size:16px"></div><button class="btn btn-blue" style="margin-top:10px" onclick="checkout()">Checkout - Cash on Delivery</button></div>
+<div id="detailPage" class="page"><div class="box"><img id="dImg" style="width:100%;height:220px;object-fit:cover;border-radius:12px"><h2 id="dName"></h2><div id="dPrice" style="color:#0b3d6b;font-weight:800;font-size:18px"></div><div id="dRating"></div><div id="dDesc" style="font-size:12px;color:#666;margin-top:6px"></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-blue" style="flex:1" onclick="buyNow()">Buy Now</button><button class="btn btn-outline" style="flex:1" onclick="addToCartCurrent()">Add to Cart</button></div><button class="btn btn-outline" style="margin-top:8px" onclick="toggleWishCurrent()" id="wishBtn">❤️ Wishlist</button>
+<div style="margin-top:14px"><h4>⭐ Rating & Reviews</h4><div id="reviewList"></div><div style="display:flex;gap:4px;margin-top:8px"><span class="star" onclick="setRate(1)">★</span><span class="star" onclick="setRate(2)">★</span><span class="star" onclick="setRate(3)">★</span><span class="star" onclick="setRate(4)">★</span><span class="star" onclick="setRate(5)">★</span><span id="rateVal" style="margin-left:6px;font-size:12px">0/5</span></div><textarea id="reviewText" placeholder="Write review..."></textarea><button class="btn btn-blue" onclick="submitReview()">Submit Review</button>
+<h4 style="margin-top:14px">💬 Comments & Like</h4><div id="commentList"></div><div style="display:flex;gap:6px;margin-top:6px"><input id="commentInput" placeholder="Add a comment..."><button onclick="addComment()" style="padding:8px 12px;background:#0b3d6b;color:#fff;border:none;border-radius:8px">Post</button></div>
 </div>
+<button class="btn btn-outline" style="margin-top:10px" onclick="openP('home')">← Back to Home</button>
+</div></div>
 
-<div id="sellPage" class="page">
-<div class="box"><h3>➕ Sell Your Product</h3>
-<input id="pName" placeholder="Product Name"><input id="pPrice" type="number" placeholder="Price in Rs"><input id="pCat" placeholder="Category e.g. Mobile, Fashion"><input id="pImg" placeholder="Image URL (https://...)"><textarea id="pDesc" placeholder="Description"></textarea>
-<button class="btn btn-blue" onclick="addProd()">Publish Product</button></div>
-<div class="box"><h4>My Products</h4><div id="sProdList"></div></div>
-</div>
+<div id="cartPage" class="page"><div class="box"><h3>🛒 Cart</h3><div id="cartList"></div><div style="margin-top:10px"><input id="couponInput" placeholder="Coupon Code e.g. ASLI10"><button class="btn btn-outline" onclick="applyCoupon()">Apply Coupon</button><div id="couponMsg" style="font-size:12px;margin-top:4px"></div></div><div id="cartTotal" style="font-weight:800;margin-top:10px"></div><div style="margin-top:10px"><h4>Payment Method</h4><select id="payMethod"><option value="COD">Cash on Delivery</option><option value="Easypaisa">Easypaisa</option><option value="JazzCash">JazzCash</option><option value="Bank">Bank Transfer</option></select><input id="payNumber" placeholder="Easypaisa/JazzCash Number (if selected)"></div><button class="btn btn-green" onclick="checkout()">Place Order</button></div></div>
+
+<div id="wishlistPage" class="page"><div class="box"><h3>❤️ My Wishlist</h3><div id="wishList"></div></div></div>
+
+<div id="ordersPage" class="page"><div class="box"><h3>📦 Order Tracking</h3><div id="orderList"></div></div></div>
+
+<div id="sellPage" class="page"><div class="box"><h3>➕ Add / Edit Product</h3><input id="pName" placeholder="Product Name"><input id="pPrice" type="number" placeholder="Price"><select id="pCat"><option>Mobile</option><option>Fashion</option><option>Watch</option><option>Shoes</option><option>Electronics</option></select><input id="pImg" placeholder="Image URL"><textarea id="pDesc" placeholder="Description"></textarea><button class="btn btn-blue" onclick="addProd()" id="pBtn">Publish</button></div><div class="box"><h4>My Products - Edit/Delete</h4><div id="sProdList"></div></div></div>
 
 <div id="walletPage" class="page">
-<div class="wallet-card"><div style="font-size:12px;opacity:.8">Total Coins</div><div style="font-size:32px;font-weight:800" id="wCoins">0</div><div style="font-size:12px;margin-top:8px">1 Coin = 1 Rs Discount | Refer & Earn 20 Coins</div></div>
-<div class="box"><h4>Referral</h4><div style="background:#f6f8fa;padding:10px;border-radius:10px;margin-top:8px"><div style="font-size:11px;color:#888">Your Referral Code</div><div id="myRefCode" style="font-weight:800;font-size:18px;color:#0b3d6b">---</div><button class="btn btn-outline" style="margin-top:8px" onclick="copyRef()">Copy & Share</button></div></div>
-<div class="box"><h4>How to Earn</h4><div style="font-size:12px;line-height:1.8">• Register = 50 Coins<br>• Sell Product = 10 Coins<br>• Refer Friend = 20 Coins<br>• Daily Login = 5 Coins</div></div>
+<div style="background:linear-gradient(135deg,#0b3d6b,#2d8de0);color:#fff;border-radius:16px;padding:14px;margin:10px"><div style="font-size:11px">Total Coins</div><div style="font-size:28px;font-weight:800" id="wCoins">0</div><div style="font-size:11px">200 Coins = 1 PKR | Value: <span id="coinValue">0 PKR</span></div><div style="font-size:11px;margin-top:6px">Referral Code: <b id="myRefCode">---</b> <button onclick="copyRef()" style="margin-left:6px;padding:2px 6px;border-radius:8px;border:none">Copy</button></div></div>
+<div class="box"><h4>💸 Withdraw Coins to Easypaisa / JazzCash</h4><div style="font-size:11px;color:#666">Min Withdraw: 2000 Coins = 10 PKR</div><select id="wMethod"><option value="Easypaisa">Easypaisa</option><option value="JazzCash">JazzCash</option></select><input id="wNumber" placeholder="Your Easypaisa/JazzCash Number"><input id="wCoinsInput" type="number" placeholder="Coins e.g. 2000"><div style="font-size:11px;margin-top:4px">You will get: <b id="wPKR">0 PKR</b></div><button class="btn btn-green" onclick="withdraw()">Withdraw Request</button><div id="withdrawList" style="margin-top:10px"></div></div>
 </div>
 
-<div id="mePage" class="page">
-<div class="box" style="text-align:center"><div style="width:60px;height:60px;background:#0b3d6b;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:24px;font-weight:800" id="meAvatar">A</div><h3 id="meName" style="margin-top:10px">Guest</h3><div id="mePhone" style="color:#888;font-size:13px"></div><div id="meCity" style="color:#888;font-size:12px"></div></div>
-<div class="box"><div onclick="openP('wallet')" style="padding:10px;border-bottom:1px solid #eee;cursor:pointer">🪙 My Wallet & Referral</div><div onclick="openP('sell')" style="padding:10px;border-bottom:1px solid #eee;cursor:pointer">📦 My Products</div><div style="padding:10px;color:red;cursor:pointer" onclick="logout()">🚪 Logout</div></div>
+<div id="mePage" class="page"><div class="box" style="text-align:center"><div id="meAvatar" style="width:60px;height:60px;background:#0b3d6b;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:22px;font-weight:800">A</div><h3 id="meName">Guest</h3><div id="mePhone" style="font-size:12px;color:#888"></div></div>
+<div class="box"><h4>⚙️ Profile Settings</h4><input id="setName" placeholder="Name"><input id="setCity" placeholder="City"><input id="setAddr" placeholder="Address"><input id="setPass" placeholder="New Password (leave empty if no change)"><button class="btn btn-blue" onclick="saveProfile()">Save Profile</button></div>
+<div class="box"><div onclick="openP('orders')" style="padding:10px;border-bottom:1px solid #eee;cursor:pointer">📦 Order Tracking</div><div onclick="openP('wishlist')" style="padding:10px;border-bottom:1px solid #eee;cursor:pointer">❤️ Wishlist</div><div onclick="openP('wallet')" style="padding:10px;border-bottom:1px solid #eee;cursor:pointer">🪙 Wallet & Withdraw</div><div style="padding:10px;color:red;cursor:pointer" onclick="logout()">Logout</div></div>
 </div>
 
 <div class="bottom">
-<div id="b-home" class="bitem active" onclick="openP('home')"><i>🏠</i>Home</div>
-<div id="b-cart" class="bitem" onclick="openP('cart')"><i>🛒</i>Cart</div>
-<div id="b-sell" class="bitem" onclick="openP('sell')"><i>➕</i>Sell</div>
-<div id="b-wallet" class="bitem" onclick="openP('wallet')"><i>🪙</i>Wallet</div>
-<div id="b-me" class="bitem" onclick="openP('me')"><i>👤</i>Me</div>
+<div id="b-home" class="bitem active" onclick="openP('home')">🏠<br>Home</div>
+<div id="b-wishlist" class="bitem" onclick="openP('wishlist')">❤️<br>Wish</div>
+<div id="b-sell" class="bitem" onclick="openP('sell')">➕<br>Sell</div>
+<div id="b-orders" class="bitem" onclick="openP('orders')">📦<br>Orders</div>
+<div id="b-me" class="bitem" onclick="openP('me')">👤<br>Me</div>
 </div>
 
+<div id="trackModal" class="modal"><div class="modal-box"><h3>Order Tracking</h3><div id="trackContent"></div><button class="btn btn-outline" onclick="closeModal('trackModal')">Close</button></div></div>
+
 <script>
-function setMode(m){
-  var L=document.getElementById('fLogin');
-  var R=document.getElementById('fReg');
-  if(m==='reg'){L.style.display='none';R.style.display='block';}
-  else{L.style.display='block';R.style.display='none';}
-}
-function showReg(){
-  document.getElementById('fLogin').style.display='none';
-  document.getElementById('fReg').style.display='block';
-}
-function showLogin(){
-  document.getElementById('fLogin').style.display='block';
-  document.getElementById('fReg').style.display='none';
-}let curUser=JSON.parse(localStorage.getItem('ar_user')||'null');
+let LANG='en';
+const T={
+en:{welcome:"Welcome to AsliRate",search:"Search...",addCart:"Add to Cart",buyNow:"Buy Now"},
+ur:{welcome:"AsliRate میں خوش آمدید",search:"تلاش کریں...",addCart:"کارٹ میں ڈالیں",buyNow:"ابھی خریدیں"}
+};
+function toggleLang(){LANG=LANG==='en'?'ur':'en';document.getElementById('langBtn').innerText=LANG==='en'?'اردو':'EN';document.getElementById('tWelcome').innerText=T[LANG].welcome;document.getElementById('sInput').placeholder=T[LANG].search;render();}
+function showReg(){document.getElementById('fLogin').style.display='none';document.getElementById('fReg').style.display='block';}
+function showLogin(){document.getElementById('fLogin').style.display='block';document.getElementById('fReg').style.display='none';}let curUser=JSON.parse(localStorage.getItem('ar_user')||'null');
 let cart=JSON.parse(localStorage.getItem('arcart')||'[]');
-let products=JSON.parse(localStorage.getItem('arprod')||'null')||[
-{id:1,name:'iPhone 15 Pro Max 256GB',price:285000,cat:'Mobile',img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500',seller:'03450000000',desc:'PTA Approved'},
-{id:2,name:'Men Winter Jacket',price:4500,cat:'Fashion',img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500',seller:'03450000000',desc:'Premium Quality'},
-{id:3,name:'Smart Watch Series 8',price:8500,cat:'Watch',img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',seller:'03450000000',desc:'Waterproof'},
-{id:4,name:'Nike Air Shoes',price:7500,cat:'Shoes',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500',seller:'03450000000',desc:'Original'},
-{id:5,name:'Leather Handbag',price:3200,cat:'Fashion',img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500',seller:'03450000000',desc:'Ladies Bag'},
-{id:6,name:'Wireless Earbuds',price:2800,cat:'Mobile',img:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500',seller:'03450000000',desc:'Best Sound'}
+let wishlist=JSON.parse(localStorage.getItem('ar_wish')||'[]');
+let orders=JSON.parse(localStorage.getItem('ar_orders')||'[]');
+let withdraws=JSON.parse(localStorage.getItem('ar_withdraw')||'[]');
+let products=JSON.parse(localStorage.getItem('arprod_v6')||'null')||[
+{id:1,name:'iPhone 15 Pro Max',price:285000,cat:'Mobile',img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500',seller:'03450000000',desc:'PTA Approved, 256GB',ratings:[{phone:'03450000000',stars:5,text:'Best phone!'}],comments:[{phone:'03450000000',text:'Original hai?',likes:2}],likes:5},
+{id:2,name:'Men Winter Jacket',price:4500,cat:'Fashion',img:'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500',seller:'03450000000',desc:'Premium Quality Warm',ratings:[{phone:'0345',stars:4,text:'Good quality'}],comments:[],likes:3},
+{id:3,name:'Smart Watch S8',price:8500,cat:'Watch',img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',seller:'03450000000',desc:'Waterproof, Calling',ratings:[],comments:[],likes:1}
 ];
-let users=JSON.parse(localStorage.getItem('ar_users')||'null')||[{name:'Demo User',phone:'03450000000',city:'Timergara',address:'Bazaar',pass:'1234',coins:100,refCode:'DEMO123'}];
-let cats=['All','Mobile','Fashion','Watch','Shoes'];
-function save(){localStorage.setItem('arcart',JSON.stringify(cart));localStorage.setItem('arprod',JSON.stringify(products));localStorage.setItem('ar_users',JSON.stringify(users));localStorage.setItem('ar_user',JSON.stringify(curUser));}
-function doReg(){
- let n=document.getElementById('rName').value.trim();
- let ph=document.getElementById('rPhone').value.trim();
- let ci=document.getElementById('rCity').value.trim();
- let ad=document.getElementById('rAddr').value.trim();
- let rf=document.getElementById('rRef').value.trim();
- let ps=document.getElementById('rPass').value.trim();
- if(!n||!ph||!ps)return alert('Name, Mobile, Password zaruri hai');
- if(users.find(u=>u.phone===ph))return alert('Ye number pehle se registered hai, dusra try karo');
- let refCode='AR'+ph.slice(-4)+Math.floor(Math.random()*90+10);
- let newUser={name:n,phone:ph,city:ci,address:ad,pass:ps,coins:50,refCode:refCode,myRef:rf};
- if(rf){let referrer=users.find(u=>u.refCode===rf||u.phone===rf); if(referrer){referrer.coins+=20; newUser.coins+=20; alert('Referral Applied! Aapko +20 Coins mila');}}
- users.push(newUser); save(); alert('Registration Ho Gayi! +50 Coins Bonus! Ab Login karo'); showLogin(); document.getElementById('lPhone').value=ph;
-}
-function doLogin(){
- let ph=document.getElementById('lPhone').value.trim();
- let ps=document.getElementById('lPass').value.trim();
- let u=users.find(x=>x.phone===ph&&x.pass===ps);
- if(!u)return alert('Mobile ya Password ghalat hai');
- curUser=u; curUser.coins+=5; let idx=users.findIndex(x=>x.phone===u.phone); users[idx]=curUser; save(); afterLogin();
-}
-function afterLogin(){
- document.getElementById('authPage').classList.remove('active');
- document.getElementById('meName').innerText=curUser.name;
- document.getElementById('mePhone').innerText=curUser.phone;
- document.getElementById('meCity').innerText=curUser.city||'';
- document.getElementById('meAvatar').innerText=curUser.name.charAt(0).toUpperCase();
- document.getElementById('myRefCode').innerText=curUser.refCode||'AR'+curUser.phone.slice(-4);
- document.getElementById('wCoins').innerText=curUser.coins;
- document.getElementById('coinTop').innerText='🪙'+curUser.coins;
- openP('home'); render();
-}
+let users=JSON.parse(localStorage.getItem('ar_users_v6')||'null')||[{name:'Demo User',phone:'03450000000',city:'Timergara',address:'Bazaar',pass:'1234',coins:1000,refCode:'DEMO123'}];
+let coupons={ASLI10:{type:'percent',value:10},ASLI50:{type:'fixed',value:50},WELCOME20:{type:'percent',value:20}};
+let appliedCoupon=null; let currentDetailId=null; let curRate=0; let editProdId=null;
+function save(){localStorage.setItem('ar_user',JSON.stringify(curUser));localStorage.setItem('arcart',JSON.stringify(cart));localStorage.setItem('ar_wish',JSON.stringify(wishlist));localStorage.setItem('ar_orders',JSON.stringify(orders));localStorage.setItem('ar_withdraw',JSON.stringify(withdraws));localStorage.setItem('arprod_v6',JSON.stringify(products));localStorage.setItem('ar_users_v6',JSON.stringify(users));}
+function doReg(){let n=rName.value.trim(),ph=rPhone.value.trim(),ci=rCity.value.trim(),ad=rAddr.value.trim(),rf=rRef.value.trim(),ps=rPass.value.trim();if(!n||!ph||!ps)return alert('Name Mobile Password required');if(users.find(u=>u.phone===ph))return alert('Already registered');let code='AR'+ph.slice(-4)+Math.floor(Math.random()*90+10);let u={name:n,phone:ph,city:ci,address:ad,pass:ps,coins:50,refCode:code};if(rf){let ref=users.find(x=>x.refCode===rf||x.phone===rf);if(ref){ref.coins+=20;u.coins+=20;alert('Referral bonus +20 coins');}}users.push(u);save();alert('Registered! +50 Coins');showLogin();lPhone.value=ph;}
+function doLogin(){let u=users.find(x=>x.phone===lPhone.value.trim()&&x.pass===lPass.value.trim());if(!u)return alert('Wrong credentials');curUser=u;curUser.coins+=5;let idx=users.findIndex(x=>x.phone===u.phone);users[idx]=curUser;save();afterLogin();}
+function afterLogin(){authPage.classList.remove('active');meName.innerText=curUser.name;mePhone.innerText=curUser.phone;meAvatar.innerText=curUser.name.charAt(0).toUpperCase();setName.value=curUser.name;setCity.value=curUser.city||'';setAddr.value=curUser.address||'';myRefCode.innerText=curUser.refCode;wCoins.innerText=curUser.coins;coinTop.innerText='🪙'+curUser.coins;coinValue.innerText=(curUser.coins/200).toFixed(2)+' PKR';wishTop.innerText=wishlist.filter(w=>w.user===curUser.phone).length;openP('home');render();}
 function logout(){localStorage.removeItem('ar_user');location.reload();}
-function openP(p){
- if(!curUser){document.getElementById('authPage').classList.add('active');return;}
- document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
- document.getElementById(p+'Page').classList.add('active');
- document.querySelectorAll('.bitem').forEach(e=>e.classList.remove('active'));
- let b=document.getElementById('b-'+p); if(b)b.classList.add('active');
- if(p==='home')render(); if(p==='cart')renderCart(); if(p==='sell')renderSell(); if(p==='wallet'){document.getElementById('wCoins').innerText=curUser.coins; document.getElementById('myRefCode').innerText=curUser.refCode;}
-}
-function renderCat(){
- let bar=document.getElementById('catBar');
- bar.innerHTML=cats.map(c=>`<button onclick="filterCat('${c}',this)" class="${c==='All'?'active':''}">${c}</button>`).join('');
-}
-let curCat='All'; let searchQ='';
-function filterCat(c,el){curCat=c; document.querySelectorAll('.top-bar button').forEach(b=>b.classList.remove('active')); el.classList.add('active'); render();}
-function doSearch(){searchQ=document.getElementById('sInput').value.toLowerCase(); render();}
+function openP(p){if(!curUser){authPage.classList.add('active');return;}document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));document.getElementById(p+'Page').classList.add('active');document.querySelectorAll('.bitem').forEach(e=>e.classList.remove('active'));let b=document.getElementById('b-'+p);if(b)b.classList.add('active');if(p==='home')render();if(p==='cart')renderCart();if(p==='wishlist')renderWish();if(p==='orders')renderOrders();if(p==='sell')renderSell();if(p==='wallet'){wCoins.innerText=curUser.coins;coinValue.innerText=(curUser.coins/200).toFixed(2)+' PKR';myRefCode.innerText=curUser.refCode;renderWithdraw();}}
 function render(){
- let list=products.filter(p=>{
-  let matchCat=curCat==='All'||p.cat===curCat;
-  let matchSearch=!searchQ||p.name.toLowerCase().includes(searchQ)||p.cat.toLowerCase().includes(searchQ);
-  return matchCat&&matchSearch;
- });
- document.getElementById('grid').innerHTML=list.map(p=>`
-  <div class="card"><span class="badge-new">NEW</span><img src="${p.img}" onerror="this.src='https://via.placeholder.com/400'"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-seller">By ${p.seller.slice(-4)}</div><div class="card-price">Rs ${p.price.toLocaleString()}</div><button onclick="addToCart(${p.id})" style="margin-top:6px;width:100%;padding:6px;background:#0b3d6b;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px">Add to Cart</button></div></div>
- `).join('');
- document.getElementById('cartTop').innerText=cart.length;
- document.getElementById('coinTop').innerText='🪙'+(curUser?curUser.coins:0);
+ let q=sInput.value.toLowerCase(); let cat=catSel.value;
+ let list=products.filter(p=>{let mCat=cat==='All'||p.cat===cat; let mQ=!q||p.name.toLowerCase().includes(q); return mCat&&mQ;});
+ grid.innerHTML=list.map(p=>{
+  let avg=p.ratings.length? (p.ratings.reduce((a,b)=>a+b.stars,0)/p.ratings.length).toFixed(1):'0';
+  let isWish=wishlist.find(w=>w.user===curUser?.phone&&w.pid===p.id);
+  return `<div class="card"><div class="wish" onclick="toggleWish(${p.id})">${isWish?'❤️':'🤍'}</div><img src="${p.img}" onclick="openDetail(${p.id})" onerror="this.src='https://via.placeholder.com/400'"><div class="card-body"><div style="font-size:12px;font-weight:700;height:32px;overflow:hidden" onclick="openDetail(${p.id})">${p.name}</div><div style="font-size:10px;color:#888">⭐${avg} (${p.ratings.length}) | ❤️${p.likes} | 💬${p.comments.length}</div><div style="color:#0b3d6b;font-weight:800;margin-top:2px">Rs ${p.price.toLocaleString()}</div><div style="display:flex;gap:4px;margin-top:4px"><button onclick="openDetail(${p.id})" style="flex:1;padding:5px;background:#eef2f7;border:none;border-radius:6px;font-size:11px">View</button><button onclick="quickAdd(${p.id})" style="flex:1;padding:5px;background:#0b3d6b;color:#fff;border:none;border-radius:6px;font-size:11px">${T[LANG].addCart}</button></div></div></div>`;
+ }).join('');
+ cartTop.innerText=cart.filter(c=>c.user===curUser?.phone).length; coinTop.innerText='🪙'+(curUser?curUser.coins:0); wishTop.innerText=wishlist.filter(w=>w.user===curUser?.phone).length;
 }
-function addToCart(id){let p=products.find(x=>x.id===id); let ex=cart.find(x=>x.id===id); if(ex)ex.qty++; else cart.push({...p,qty:1}); save(); document.getElementById('cartTop').innerText=cart.length; alert('Added to Cart');}
+function openDetail(id){currentDetailId=id; let p=products.find(x=>x.id===id); dImg.src=p.img; dName.innerText=p.name; dPrice.innerText='Rs '+p.price.toLocaleString()+' | '+p.cat; dDesc.innerText=p.desc; let avg=p.ratings.length? (p.ratings.reduce((a,b)=>a+b.stars,0)/p.ratings.length).toFixed(1):'No ratings'; dRating.innerHTML=`⭐ ${avg} (${p.ratings.length} reviews) | ❤️ ${p.likes} Likes`; renderReviews(); renderComments(); openP('detail'); document.getElementById('detailPage').classList.add('active');}
+function quickAdd(id){let p=products.find(x=>x.id===id); let item=cart.find(c=>c.id===id&&c.user===curUser.phone); if(item)item.qty++; else cart.push({id:p.id,name:p.name,price:p.price,img:p.img,qty:1,user:curUser.phone}); save(); render(); alert('Added to cart');}
+function addToCartCurrent(){quickAdd(currentDetailId);}
+function buyNow(){quickAdd(currentDetailId); openP('cart');}
+function toggleWish(id){let idx=wishlist.findIndex(w=>w.user===curUser.phone&&w.pid===id); if(idx>=0)wishlist.splice(idx,1); else wishlist.push({user:curUser.phone,pid:id}); save(); render(); let p=products.find(x=>x.id===id); if(p){let isWish=wishlist.find(w=>w.user===curUser.phone&&w.pid===id); alert(isWish?'Added to Wishlist ❤️':'Removed from Wishlist');}}
+function toggleWishCurrent(){toggleWish(currentDetailId); renderComments();}
+function setRate(n){curRate=n; rateVal.innerText=n+'/5'; document.querySelectorAll('.star').forEach((s,i)=>{s.style.color=i<n?'#ffb400':'#ddd';});}
+function submitReview(){if(!curRate)return alert('Select stars'); let p=products.find(x=>x.id===currentDetailId); p.ratings.push({phone:curUser.phone,stars:curRate,text:reviewText.value.trim()||'Good'}); save(); reviewText.value=''; curRate=0; rateVal.innerText='0/5'; renderReviews(); render(); alert('Review added! +5 coins'); curUser.coins+=5; let idx=users.findIndex(u=>u.phone===curUser.phone); users[idx]=curUser; save(); afterLogin();}
+function renderReviews(){let p=products.find(x=>x.id===currentDetailId); reviewList.innerHTML=p.ratings.map(r=>`<div style="background:#f6f8fa;padding:6px;border-radius:8px;margin-top:4px;font-size:12px"><b>${r.phone.slice(-4)} ⭐${r.stars}</b> - ${r.text}</div>`).join('')||'<div style="font-size:11px;color:#888">No reviews yet</div>';}
+function renderComments(){let p=products.find(x=>x.id===currentDetailId); commentList.innerHTML=p.comments.map((c,i)=>`<div style="background:#f6f8fa;padding:6px;border-radius:8px;margin-top:4px;font-size:12px;display:flex;justify-content:space-between"><span><b>${c.phone.slice(-4)}:</b> ${c.text}</span><span style="cursor:pointer" onclick="likeComment(${i})">👍${c.likes||0}</span></div>`).join('')||'<div style="font-size:11px;color:#888">No comments</div>';}
+function addComment(){let txt=commentInput.value.trim(); if(!txt)return; let p=products.find(x=>x.id===currentDetailId); p.comments.push({phone:curUser.phone,text:txt,likes:0}); save(); commentInput.value=''; renderComments(); render();}
+function likeComment(i){let p=products.find(x=>x.id===currentDetailId); p.comments[i].likes++; save(); renderComments();}
 function renderCart(){
+ let myCart=cart.filter(c=>c.user===curUser.phone);
  let html=''; let total=0;
- if(cart.length===0)html='<div style="text-align:center;color:#888;padding:20px">Cart Khali Hai</div>';
- cart.forEach((c,i)=>{total+=c.price*c.qty; html+=`<div style="display:flex;gap:10px;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:8px"><img src="${c.img}" style="width:60px;height:60px;border-radius:10px;object-fit:cover"><div style="flex:1"><b style="font-size:13px">${c.name}</b><div style="font-size:12px">Rs ${c.price} x ${c.qty}</div></div><button onclick="cart.splice(${i},1);save();renderCart();" style="border:none;background:#ffe5e5;color:red;padding:4px 8px;border-radius:8px">X</button></div>`});
- document.getElementById('cartList').innerHTML=html; document.getElementById('cartTotal').innerText='Total: Rs '+total.toLocaleString();
+ if(myCart.length===0)html='<div style="text-align:center;color:#888;padding:14px">Cart empty</div>';
+ myCart.forEach((c,idx)=>{total+=c.price*c.qty; html+=`<div style="display:flex;gap:8px;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:6px"><img src="${c.img}" style="width:55px;height:55px;border-radius:8px"><div style="flex:1"><b style="font-size:12px">${c.name}</b><div style="font-size:11px">Rs ${c.price} x ${c.qty}</div></div><button onclick="removeCart(${c.id})" style="border:none;background:#ffe5e5;color:red;padding:4px 8px;border-radius:6px">X</button></div>`});
+ let discount=0;
+ if(appliedCoupon){if(appliedCoupon.type==='percent')discount=Math.round(total*appliedCoupon.value/100); else discount=appliedCoupon.value;}
+ let finalTotal=total-discount;
+ if(finalTotal<0)finalTotal=0;
+ cartList.innerHTML=html;
+ cartTotal.innerHTML=`Subtotal: Rs ${total.toLocaleString()}<br>${discount?`Discount: -Rs ${discount}<br>`:''}<b>Final Total: Rs ${finalTotal.toLocaleString()}</b><br><span style="font-size:11px;color:#888">Coins used value: 200 Coins = 1 PKR (You have ${curUser.coins} Coins = ${(curUser.coins/200).toFixed(2)} PKR)</span>`;
+ cartTotal.dataset.total=finalTotal;
 }
-function checkout(){if(cart.length===0)return alert('Cart khali'); alert('Order Placed! Total Rs '+cart.reduce((a,b)=>a+b.price*b.qty,0)+' - COD'); cart=[]; save(); renderCart(); render();}
-function renderSell(){document.getElementById('sProdList').innerHTML=products.filter(p=>curUser&&p.seller===curUser.phone).map(p=>`<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #eee"><span>${p.name} - Rs ${p.price}</span><span style="color:red;cursor:pointer" onclick="delProd(${p.id})">Delete</span></div>`).join('');}
-function addProd(){
- let n=document.getElementById('pName').value.trim(), pr=parseInt(document.getElementById('pPrice').value||0), cat=document.getElementById('pCat').value.trim()||'General', img=document.getElementById('pImg').value.trim()||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500', desc=document.getElementById('pDesc').value.trim();
- if(!n||!pr)return alert('Name aur Price zaruri');
- products.unshift({id:Date.now(),name:n,price:pr,cat:cat,img:img,desc:desc,seller:curUser.phone});
+function removeCart(id){cart=cart.filter(c=>!(c.id===id&&c.user===curUser.phone)); save(); renderCart(); render();}
+function applyCoupon(){let code=couponInput.value.trim().toUpperCase(); if(!coupons[code]){couponMsg.innerText='❌ Invalid coupon'; couponMsg.style.color='red'; return;} appliedCoupon=coupons[code]; couponMsg.innerText=`✅ Coupon ${code} applied - ${appliedCoupon.value}${appliedCoupon.type==='percent'?'%':' Rs'} OFF`; couponMsg.style.color='green'; renderCart();}
+function checkout(){
+ let myCart=cart.filter(c=>c.user===curUser.phone); if(myCart.length===0)return alert('Cart empty');
+ let total=parseInt(cartTotal.dataset.total||0);
+ let payM=payMethod.value; let payN=payNumber.value.trim();
+ if((payM==='Easypaisa'||payM==='JazzCash')&&!payN)return alert('Enter '+payM+' number');
+ let orderId='ORD'+Date.now();
+ let order={id:orderId,user:curUser.phone,items:[...myCart],total:total,payMethod:payM,payNumber:payN,status:'Pending',date:new Date().toLocaleString(),track:0};
+ orders.unshift(order);
+ cart=cart.filter(c=>c.user!==curUser.phone);
  curUser.coins+=10; let idx=users.findIndex(u=>u.phone===curUser.phone); users[idx]=curUser;
- save(); render(); renderSell(); alert('Product Published! +10 Coins'); document.getElementById('pName').value='';document.getElementById('pPrice').value='';document.getElementById('pImg').value='';
+ appliedCoupon=null; couponInput.value=''; couponMsg.innerText='';
+ save(); alert('Order Placed! ID: '+orderId+' - '+payM); openP('orders'); renderOrders();
 }
-function delProd(id){products=products.filter(p=>p.id!==id); save(); renderSell(); render();}
-function copyRef(){let code=document.getElementById('myRefCode').innerText; navigator.clipboard.writeText(code); alert('Referral Copied: '+code);}
-renderCat();
+function renderOrders(){
+ let myOrders=orders.filter(o=>o.user===curUser.phone);
+ if(myOrders.length===0){orderList.innerHTML='<div style="text-align:center;color:#888;padding:14px">No orders yet</div>'; return;}
+ orderList.innerHTML=myOrders.map(o=>`<div style="border:1px solid #eee;border-radius:12px;padding:10px;margin-bottom:8px"><div style="display:flex;justify-content:space-between"><b>${o.id}</b><span style="background:#eef2f7;padding:2px 8px;border-radius:10px;font-size:11px">${o.status}</span></div><div style="font-size:11px;color:#888">${o.date} | ${o.payMethod} | Rs ${o.total}</div><div style="font-size:12px;margin-top:4px">${o.items.map(i=>i.name+' x'+i.qty).join(', ')}</div><div class="track"><div class="${o.track>=0?'done':''}">1</div><div class="${o.track>=1?'done':''}">2</div><div class="${o.track>=2?'done':''}">3</div><div class="${o.track>=3?'done':''}">4</div></div><div style="display:flex;justify-content:space-between;font-size:10px"><span>Pending</span><span>Packed</span><span>Shipped</span><span>Delivered</span></div><button onclick="viewTrack('${o.id}')" style="margin-top:6px;padding:6px 10px;background:#0b3d6b;color:#fff;border:none;border-radius:8px;font-size:11px">Track Order</button></div>`).join('');
+}
+function viewTrack(id){let o=orders.find(x=>x.id===id); let steps=['Pending','Packed','Shipped','Delivered']; trackContent.innerHTML=`<b>${o.id}</b><br><div style="margin-top:10px">${steps.map((s,i)=>`<div style="display:flex;gap:8px;margin-bottom:8px"><div style="width:20px;height:20px;border-radius:50%;background:${i<=o.track?'#0a7a42':'#ddd'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px">${i+1}</div><div><b>${s}</b><br><span style="font-size:11px;color:#888">${i<=o.track?'Completed':'Waiting'}</span></div></div>`).join('')}<br><button onclick="nextTrack('${o.id}')" style="padding:6px 10px;background:#0a7a42;color:#fff;border:none;border-radius:8px">Next Status (Demo)</button></div>`; document.getElementById('trackModal').classList.add('active');}
+function nextTrack(id){let o=orders.find(x=>x.id===id); if(o.track<3){o.track++; o.status=['Pending','Packed','Shipped','Delivered'][o.track]; save(); renderOrders(); viewTrack(id);} else alert('Already Delivered');}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+function renderWish(){
+ let myWish=wishlist.filter(w=>w.user===curUser.phone).map(w=>products.find(p=>p.id===w.pid)).filter(Boolean);
+ if(myWish.length===0){wishList.innerHTML='<div style="text-align:center;color:#888;padding:14px">Wishlist empty</div>'; return;}
+ wishList.innerHTML=myWish.map(p=>`<div style="display:flex;gap:8px;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:6px"><img src="${p.img}" style="width:55px;height:55px;border-radius:8px"><div style="flex:1"><b style="font-size:12px">${p.name}</b><br><span style="font-size:11px">Rs ${p.price}</span></div><button onclick="quickAdd(${p.id})" style="padding:4px 8px;background:#0b3d6b;color:#fff;border:none;border-radius:6px;font-size:11px">Add Cart</button><button onclick="toggleWish(${p.id});renderWish();render();" style="padding:4px 8px;background:#ffe5e5;color:red;border:none;border-radius:6px">X</button></div>`).join('');
+}
+function renderSell(){
+ let myProd=products.filter(p=>p.seller===curUser.phone);
+ sProdList.innerHTML=myProd.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid #eee"><span style="font-size:12px">${p.name} - Rs ${p.price}</span><div><button onclick="editProd(${p.id})" style="padding:3px 8px;background:#eef2f7;border:none;border-radius:6px;font-size:11px">Edit</button><button onclick="delProd(${p.id})" style="padding:3px 8px;background:#ffe5e5;color:red;border:none;border-radius:6px;font-size:11px">Del</button></div></div>`).join('')||'<div style="font-size:11px;color:#888">No products</div>';
+}
+function addProd(){
+ let n=pName.value.trim(), pr=parseInt(pPrice.value||0), cat=pCat.value, img=pImg.value.trim()||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500', desc=pDesc.value.trim();
+ if(!n||!pr)return alert('Name Price required');
+ if(editProdId){let p=products.find(x=>x.id===editProdId); p.name=n; p.price=pr; p.cat=cat; p.img=img; p.desc=desc; editProdId=null; pBtn.innerText='Publish';}
+ else{products.unshift({id:Date.now(),name:n,price:pr,cat:cat,img:img,desc:desc,seller:curUser.phone,ratings:[],comments:[],likes:0}); curUser.coins+=10; let idx=users.findIndex(u=>u.phone===curUser.phone); users[idx]=curUser;}
+ save(); pName.value=''; pPrice.value=''; pImg.value=''; pDesc.value=''; renderSell(); render(); alert('Done! +10 coins');
+}
+function editProd(id){let p=products.find(x=>x.id===id); pName.value=p.name; pPrice.value=p.price; pCat.value=p.cat; pImg.value=p.img; pDesc.value=p.desc; editProdId=id; pBtn.innerText='Update Product'; window.scrollTo(0,0);}
+function delProd(id){if(!confirm('Delete?'))return; products=products.filter(p=>p.id!==id); save(); renderSell(); render();}
+function saveProfile(){let n=setName.value.trim(), ci=setCity.value.trim(), ad=setAddr.value.trim(), ps=setPass.value.trim(); if(!n)return alert('Name required'); curUser.name=n; curUser.city=ci; curUser.address=ad; if(ps)curUser.pass=ps; let idx=users.findIndex(u=>u.phone===curUser.phone); users[idx]=curUser; save(); alert('Profile saved'); afterLogin();}
+function copyRef(){navigator.clipboard.writeText(curUser.refCode); alert('Copied: '+curUser.refCode);}
+document.getElementById('wCoinsInput')?.addEventListener('input',function(){let c=parseInt(this.value||0); let pkr=c/200; document.getElementById('wPKR').innerText=pkr.toFixed(2)+' PKR';});
+function withdraw(){
+ let method=wMethod.value, num=wNumber.value.trim(), coins=parseInt(wCoinsInput.value||0);
+ if(!num)return alert('Enter Easypaisa/JazzCash number');
+ if(coins<2000)return alert('Min 2000 Coins = 10 PKR required');
+ if(coins>curUser.coins)return alert('Not enough coins. You have '+curUser.coins);
+ let pkr=coins/200;
+ curUser.coins-=coins; let idx=users.findIndex(u=>u.phone===curUser.phone); users[idx]=curUser;
+ withdraws.unshift({id:'WD'+Date.now(),user:curUser.phone,coins:coins,pkr:pkr,method:method,number:num,status:'Pending',date:new Date().toLocaleString()});
+ save(); alert('Withdraw request: '+pkr+' PKR to '+method+' '+num+' - Will be processed in 24h'); wCoinsInput.value=''; renderWithdraw(); afterLogin();
+}
+function renderWithdraw(){let myW=withdraws.filter(w=>w.user===curUser.phone); withdrawList.innerHTML=myW.map(w=>`<div style="background:#f6f8fa;padding:8px;border-radius:8px;margin-top:6px;font-size:11px"><b>${w.id}</b> - ${w.coins} Coins = ${w.pkr} PKR<br>${w.method} ${w.number}<br>Status: ${w.status} | ${w.date}</div>`).join('')||'<div style="font-size:11px;color:#888">No withdraws</div>';}
 if(curUser)afterLogin(); else render();
 </script>
 </body>
